@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="fr" dir="ltr">
+<head>
+<script src="imgmap.js"></script>
+<script>
+(function(){
+  function fix(el){
+    if(!el || !el.getAttribute) return;
+    ["src","href"].forEach(function(attr){
+      var v = el.getAttribute(attr);
+      if(v && v.indexOf("__IMG") === 0 && window.__IMGMAP){
+        var real = window.__IMGMAP[v];
+        if(real) el.setAttribute(attr, real);
+      }
+    });
+  }
+  function fixAll(root){
+    if(!root || !root.querySelectorAll) return;
+    fix(root);
+    root.querySelectorAll("[src^='__IMG'],[href^='__IMG']").forEach(fix);
+  }
+  var obs = new MutationObserver(function(muts){
+    muts.forEach(function(mu){
+      if(mu.type === "attributes") fix(mu.target);
+      mu.addedNodes && mu.addedNodes.forEach(function(n){ if(n.nodeType === 1) fixAll(n); });
+    });
+  });
+  function start(){
+    fixAll(document);
+    obs.observe(document.documentElement, {subtree:true, childList:true, attributes:true, attributeFilter:["src","href"]});
+  }
+  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
+})();
+</script>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" type="image/jpeg" href="__IMG0__" />
+<link rel="apple-touch-icon" href="__IMG0__" />
+<meta name="theme-color" content="#1C1611" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Park Hyatt RiseHY" />
+<title>Park Hyatt RiseHY — Cuisine & Sushi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF6F0; --bg2:#F1E9DE; --card:#FFFFFF; --ink:#211A14; --ink2:#5C5147; --line:#E3D8C9;
+  --accent:#9A5B2E; --accent2:#C07F45; --accent-soft:#F3E6D8; --dark:#1C1611; --dark2:#2A211A;
+  --chip:#EFE7DB; --shadow:0 10px 30px rgba(60,40,20,.10); --radius:18px;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#171310; --bg2:#1E1915; --card:#241E19; --ink:#F2EAE0; --ink2:#C4B6A6; --line:#3A3028;
+    --accent:#D89A5F; --accent2:#E4B07A; --accent-soft:#33281E; --chip:#2C241D; --shadow:0 10px 30px rgba(0,0,0,.45); }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Manrope",system-ui,sans-serif;font-size:16px;line-height:1.55}
+html[lang="ar"] body{font-family:"Cairo","Manrope",system-ui,sans-serif}
+h1,h2,h3,.serif{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.15}
+html[lang="ar"] h1,html[lang="ar"] h2,html[lang="ar"] h3,html[lang="ar"] .serif{font-family:"Cairo",sans-serif;font-weight:800}
+img{max-width:100%;display:block}
+button,[role="button"],select,summary,input{min-height:2.25rem}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+/* Header */
+header.top{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;gap:12px;padding:10px 0}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand img{width:52px;height:52px;object-fit:contain;border-radius:12px;border:1px solid var(--line);background:#000;padding:3px}
+.brand .bt{line-height:1.1}
+.brand .bt b{display:block;font-family:"Cormorant Garamond",serif;font-size:1.3rem;letter-spacing:.02em}
+html[lang="ar"] .brand .bt b{font-family:"Cairo",sans-serif;font-size:1.1rem}
+.brand .bt span{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.langs{margin-inline-start:auto;display:flex;background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.langs button{border:0;background:transparent;color:var(--ink2);border-radius:999px;padding:6px 14px;font-weight:800;font-size:.85rem;min-height:2.25rem}
+.langs button.on{background:var(--dark);color:#F5EBDD}
+@media (prefers-color-scheme: dark){.langs button.on{background:var(--accent);color:#1C1611}}
+/* Nav */
+nav.main{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0 12px}
+nav.main button{flex:0 1 auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:9px 18px;font-weight:700;font-size:.92rem}
+nav.main button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+/* Hero */
+.hero{position:relative;border-radius:24px;overflow:hidden;margin:14px 0 8px;box-shadow:var(--shadow)}
+.hero>img{width:100%;height:min(52vh,440px);object-fit:cover}
+.hero .veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(18,12,8,.82) 8%,rgba(18,12,8,.25) 55%,rgba(18,12,8,.05))}
+.hero .hc{position:absolute;inset-inline:0;bottom:0;padding:26px;color:#FBF4E9}
+.hero .hc .kick{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:#E9C496;font-weight:800}
+.hero .hc h1{font-size:clamp(2rem,6vw,3.4rem);margin:.25em 0 .2em;color:#FFF9F0}
+.hero .hc p{margin:0;max-width:620px;color:#F0E4D2;font-size:1.02rem}
+.hero .hc .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.btn{border:0;border-radius:12px;padding:11px 20px;font-weight:800;font-size:.95rem}
+.btn-a{background:var(--accent2);color:#211407}
+.btn-g{background:rgba(255,255,255,.14);color:#FFF4E4;border:1px solid rgba(255,255,255,.35)}
+/* Sections */
+section.view{display:none;padding:8px 0 90px}
+section.view.on{display:block}
+.sec-head{margin:22px 0 6px}
+.sec-head h2{font-size:clamp(1.7rem,4vw,2.3rem);margin:0}
+.sec-head p{color:var(--ink2);margin:4px 0 0;max-width:720px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 12px;text-align:center}
+.stat b{display:block;font-family:"Cormorant Garamond",serif;font-size:1.9rem;color:var(--accent)}
+html[lang="ar"] .stat b{font-family:"Cairo",sans-serif}
+.stat span{font-size:.8rem;color:var(--ink2);font-weight:600}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 10px rgba(60,40,20,.05);text-align:start;padding:0;width:100%;color:var(--ink)}
+button.card{cursor:pointer}
+.card img{width:100%;height:150px;object-fit:cover}
+.card .cb{padding:14px 16px 16px}
+.card h3{margin:0 0 4px;font-size:1.25rem}
+.card p{margin:0;color:var(--ink2);font-size:.9rem}
+.tag{display:inline-block;background:var(--accent-soft);color:var(--accent);font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:4px 10px;margin-bottom:8px}
+html[lang="ar"] .tag{letter-spacing:0}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
+.feat .f{background:var(--dark);color:#F3E9DA;border-radius:var(--radius);padding:20px;border:1px solid var(--dark2);text-align:start;width:100%}
+.feat .f h3{color:#FFF6E8;margin:0 0 6px;font-size:1.35rem}
+.feat .f p{color:#CDBBA4;margin:0 0 14px;font-size:.9rem}
+.feat .f .go{color:#E9C496;font-weight:800;font-size:.9rem}
+/* Filters */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.filters button{border:1px solid var(--line);background:var(--card);color:var(--ink2);border-radius:999px;padding:8px 16px;font-weight:700;font-size:.88rem}
+.filters button.on{background:var(--dark);color:#F5EBDD;border-color:var(--dark)}
+@media (prefers-color-scheme: dark){.filters button.on{background:var(--accent);color:#1C1611;border-color:var(--accent)}}
+.search{width:100%;margin-top:14px;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:1rem}
+/* Recipe detail */
+.detail{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;margin-top:16px;box-shadow:var(--shadow)}
+.detail img.dh{width:100%;height:280px;object-fit:cover}
+.detail .db{padding:20px 20px 26px}
+.back{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 16px;font-weight:700;margin-top:16px}
+.scaler{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--accent-soft);border-radius:14px;padding:12px 14px;margin:16px 0}
+.scaler b{font-size:.9rem}
+.scaler button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:800}
+.scaler button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+table.ing{width:100%;border-collapse:collapse;margin:8px 0 18px;font-size:.95rem}
+table.ing th{text-align:start;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);border-bottom:2px solid var(--line);padding:6px 8px}
+table.ing td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+table.ing td.q{text-align:end;font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+table.ing td.u{color:var(--ink2);white-space:nowrap}
+html[dir="rtl"] table.ing th{text-align:right}
+.gtitle{font-family:"Cormorant Garamond",serif;font-size:1.3rem;margin:18px 0 2px;color:var(--accent)}
+html[lang="ar"] .gtitle{font-family:"Cairo",sans-serif;font-size:1.1rem}
+.steps{background:var(--bg2);border-radius:14px;padding:14px 16px;margin-top:6px}
+.steps p{margin:0}
+/* Sauces */
+.sauce{border:1px solid var(--line);background:var(--card);border-radius:var(--radius);margin-top:12px;overflow:hidden}
+.sauce summary{cursor:pointer;padding:16px 18px;font-weight:800;list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:3rem}
+.sauce summary::-webkit-details-marker{display:none}
+.sauce summary .used{font-weight:600;color:var(--ink2);font-size:.82rem}
+.sauce .sb{padding:0 18px 16px}
+/* Timeline */
+.tl{position:relative;margin:20px 0 0;padding-inline-start:26px}
+.tl::before{content:"";position:absolute;inset-inline-start:8px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl .ev{position:relative;padding:0 0 26px}
+.tl .ev::before{content:"";position:absolute;inset-inline-start:-26px;top:4px;width:18px;height:18px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+.tl .ev .era{display:inline-block;background:var(--dark);color:#F0DFC2;border-radius:999px;padding:3px 12px;font-size:.78rem;font-weight:800}
+.tl .ev h3{margin:8px 0 4px;font-size:1.5rem}
+.tl .ev p{margin:0;color:var(--ink2);max-width:700px}
+.plain{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-top:14px}
+.plain h3{margin:0 0 6px;font-size:1.3rem}
+.plain p,.plain li{color:var(--ink2)}
+.plain ul{margin:6px 0;padding-inline-start:20px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--ink2);font-size:.88rem;text-align:center}
+a.ext{color:var(--accent);font-weight:700}
+.note{font-size:.85rem;color:var(--ink2);background:var(--accent-soft);border-radius:12px;padding:12px 14px;margin-top:14px}
+.hero-logo{width:96px;height:96px;object-fit:contain;background:#000;padding:7px;border-radius:22px;border:1px solid rgba(255,255,255,.4);margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.appcard{background:var(--dark);color:#F3E9DA;border:1px solid var(--dark2);border-radius:24px;padding:28px 20px;margin-top:16px;text-align:center;box-shadow:var(--shadow)}
+.appcard .appicon{width:156px;height:156px;object-fit:contain;background:#000;padding:10px;border-radius:30px;border:1px solid rgba(255,255,255,.25);margin:0 auto}
+.appcard .appname{font-family:"Cormorant Garamond",serif;font-size:1.7rem;margin:14px 0 2px;color:#FFF6E8}
+html[lang="ar"] .appcard .appname{font-family:"Cairo",sans-serif;font-size:1.35rem}
+.appcard p{color:#CDBBA4;margin:0 auto 18px;max-width:520px;font-size:.95rem}
+.btn-dl{font-size:1.05rem;padding:14px 30px;border-radius:14px}
+.appcard .logo-dl{display:inline-block;margin-top:16px;color:#E9C496;font-weight:700;font-size:.9rem}
+.plain ol{margin:6px 0;padding-inline-start:22px}
+.plain ol li{margin:4px 0}
+#install-steps.flash{outline:3px solid var(--accent);outline-offset:3px}
+@media(max-width:640px){.hero>img{height:min(78vh,600px)}.hero-logo{width:60px;height:60px;padding:5px;border-radius:16px;margin-bottom:10px}.hero .hc{padding:18px}.hero .hc p{font-size:.93rem}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="top-in">
+    <div class="brand">
+      <img src="__IMG0__" alt="Park Hyatt RiseHY" />
+      <div class="bt"><b>Park Hyatt RiseHY</b><span data-i="brandsub">Cuisine · Sushi · Marrakech</span></div>
+    </div>
+    <div class="langs" role="group" aria-label="Language">
+      <button data-lang="fr" class="on">FR</button>
+      <button data-lang="en">EN</button>
+      <button data-lang="ar">عربي</button>
+    </div>
+  </div>
+  <nav class="main" id="mainnav">
+    <button data-view="home" class="on" data-i="nav_home">Accueil</button>
+    <button data-view="asia" id="nav-asia">La cuisine asiatique</button>
+    <button data-view="recipes" data-i="nav_recipes">Fiches techniques</button>
+    <button data-view="sauces" data-i="nav_sauces">Sauces</button>
+    <button data-view="gear" data-i="nav_gear">Matériel</button>
+    <button data-view="story" data-i="nav_story">Histoire du sushi</button>
+    <button data-view="hygiene" data-i="nav_hygiene">Hygiène & bases</button>
+    <button data-view="app" data-i="nav_app">Télécharger l'app</button>
+  </nav>
+</div></header>
+
+<main class="wrap">
+
+<!-- HOME -->
+<section class="view on" id="v-home">
+  <div class="hero">
+    <img src="__IMG1__" alt="Assiette de nigiri, sélection omakase" />
+    <div class="veil"></div>
+    <div class="hc">
+      <img class="hero-logo" src="__IMG0__" alt="Logo Park Hyatt RiseHY" />
+      <div class="kick" data-i="hero_kick">Park Hyatt Marrakech · Issam Rhachi</div>
+      <h1 data-i="hero_title">La cuisine du Pavillon, expliquée fiche par fiche</h1>
+      <p data-i="hero_sub">Toutes les fiches techniques de la station sushi & ceviche : ingrédients, quantités pour 10 portions, sauces, matériel et hygiène — en français, anglais et arabe.</p>
+      <div class="row">
+        <button class="btn btn-a" data-goto="recipes" data-i="hero_b1">Voir les fiches techniques</button>
+        <button class="btn btn-g" data-goto="story" data-i="hero_b2">L'histoire du sushi</button>
+        <button class="btn btn-g" data-goto="app" data-i="hero_b3">Télécharger l'app</button>
+      </div>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>16</b><span data-i="st1">Fiches techniques</span></div>
+    <div class="stat"><b>15+</b><span data-i="st2">Sauces & préparations</span></div>
+    <div class="stat"><b>10</b><span data-i="st3">Portions par fiche (base)</span></div>
+    <div class="stat"><b>3</b><span data-i="st4">Langues : FR · EN · عربي</span></div>
+  </div>
+  <div class="feat">
+    <button class="f" data-goto="recipes"><h3 data-i="f1t">Fiches techniques</h3><p data-i="f1d">Nigiri, rolls, ceviches, tiradito, poke bowl, tempura, burger… avec calculateur de portions.</p><span class="go" data-i="open">Ouvrir →</span></button>
+    <button class="f" data-goto="sauces"><h3 data-i="f2t">Les sauces</h3><p data-i="f2d">Leche de tigre, ponzu, acevichada, limeña, nikkei, abura, aïolis… chaque sauce avec sa recette complète.</p><span class="go" data-i="open">Ouvrir →</span></button>
+    <button class="f" data-goto="gear"><h3 data-i="f3t">Le matériel</h3><p data-i="f3d">Couteaux, hangiri, makisu, cuiseur à riz… à quoi sert chaque outil de la station sushi.</p><span class="go" data-i="open">Ouvrir →</span></button>
+    <button class="f" data-goto="hygiene"><h3 data-i="f4t">Hygiène & bases</h3><p data-i="f4d">Shari, neta, nori, chaîne du froid et règles d'hygiène pour le poisson cru.</p><span class="go" data-i="open">Ouvrir →</span></button>
+  </div>
+  <div class="sec-head"><h2 data-i="home_cat">Parcourir par famille</h2></div>
+  <div class="grid" id="home-cats"></div>
+</section>
+
+<!-- ASIA -->
+<section class="view" id="v-asia">
+  <div class="sec-head"><h2 id="asia-title"></h2><p id="asia-sub"></p></div>
+  <div class="grid" id="asia-intro"></div>
+  <div class="sec-head"><h2 id="asia-bases-t"></h2></div>
+  <div class="grid" id="asia-bases"></div>
+  <div class="sec-head"><h2 id="asia-ing-t"></h2></div>
+  <div class="grid" id="asia-ing"></div>
+  <div class="sec-head"><h2 id="asia-nikkei-t"></h2><p id="asia-nikkei-sub"></p></div>
+  <div class="grid" id="asia-nikkei"></div>
+  <div class="note" id="asia-note"></div>
+</section>
+
+<!-- RECIPES -->
+<section class="view" id="v-recipes">
+  <div class="sec-head"><h2 data-i="rec_title">Fiches techniques</h2><p data-i="rec_sub">Recettes du Park Hyatt Marrakech (station Issam Rhachi), base 10 portions sauf mention contraire. Touchez une fiche pour le détail et ajustez le nombre de portions : les quantités se recalculent.</p></div>
+  <input class="search" id="search" type="search" data-i-ph="search_ph" placeholder="Rechercher : saumon, ponzu, gambas…" />
+  <div class="filters" id="catfilters"></div>
+  <div class="grid" id="recipe-grid"></div>
+  <div id="recipe-detail"></div>
+</section>
+
+<!-- SAUCES -->
+<section class="view" id="v-sauces">
+  <div class="sec-head"><h2 data-i="sau_title">Les sauces</h2><p data-i="sau_sub">Toutes les sauces et préparations de base qui reviennent dans les fiches — touchez une sauce pour sa recette complète.</p></div>
+  <div id="sauce-list"></div>
+</section>
+
+<!-- GEAR -->
+<section class="view" id="v-gear">
+  <div class="sec-head"><h2 data-i="gear_title">Le matériel de la station sushi</h2><p data-i="gear_sub">Chaque outil a son rôle : découpe, façonnage, cuisson du riz et dressage.</p></div>
+  <div class="hero" style="margin-top:14px"><img src="__IMG2__" alt="Couteaux japonais de sushi" style="height:240px" /></div>
+  <div class="grid" id="gear-grid"></div>
+</section>
+
+<!-- STORY -->
+<section class="view" id="v-story">
+  <div class="sec-head"><h2 data-i="story_title">L'histoire du sushi</h2><p data-i="story_sub">Comment le sushi est devenu ce qu'on sert aujourd'hui : du poisson fermenté du VIIIᵉ siècle au nigiri d'Edo, puis à l'icône mondiale.</p></div>
+  <div class="tl" id="timeline"></div>
+  <div class="plain"><h3 data-i="def_t">C'est quoi, le sushi ?</h3><p data-i="def_d">Un plat traditionnel japonais composé de riz vinaigré (shari) associé à du poisson cru, des fruits de mer ou des légumes, parfois enveloppé d'une feuille d'algue nori. Né en Asie du Sud-Est et en Chine comme méthode de conservation du poisson dans le riz fermenté, il a été introduit au Japon ; au XIXᵉ siècle à Tokyo, le chef Hanaya Yohei crée le sushi moderne comme cuisine de rue.</p>
+  <p><a class="ext" href="https://youtu.be/LmNBb4pnRUw?si=w3Rx3S9nST-YCHvG" target="_blank" rel="noopener" data-i="video">▶ Vidéo citée dans le document « Sushi »</a></p></div>
+  <div class="sec-head"><h2 data-i="types_t">Les types de sushi</h2></div>
+  <div class="grid" id="types-grid"></div>
+  <div class="note" data-i="sashimi_note">Le sashimi n'est pas un sushi : c'est la chair de poisson pure, sans riz, présentée pour apprécier la saveur authentique et la qualité du poisson.</div>
+</section>
+
+<!-- HYGIENE -->
+<section class="view" id="v-hygiene">
+  <div class="sec-head"><h2 data-i="hyg_title">Hygiène & bases du sushi</h2><p data-i="hyg_sub">Les ingrédients de base et les règles qui protègent le produit cru, de la réception au dressage.</p></div>
+  <div class="grid" id="bases-grid"></div>
+  <div class="sec-head"><h2 data-i="rules_t">Règles d'hygiène de la station</h2></div>
+  <div class="grid" id="rules-grid"></div>
+  <div class="sec-head"><h2 id="gloss-t"></h2><p id="gloss-sub"></p></div>
+  <div class="grid" id="gloss-grid"></div>
+</section>
+
+<!-- APP / INSTALL -->
+<section class="view" id="v-app">
+  <div class="sec-head"><h2 data-i="app_title">Installer Park Hyatt RiseHY sur votre téléphone</h2><p data-i="app_sub">Installez l'application sur l'écran d'accueil de votre téléphone : votre logo RiseHY devient son icône, et elle s'ouvre en plein écran avec toutes les fiches — comme une application téléchargée.</p></div>
+  <div class="appcard">
+    <img class="appicon" src="__IMG0__" alt="Logo Park Hyatt RiseHY" />
+    <div class="appname">Park Hyatt RiseHY</div>
+    <p data-i="app_card_d">Touchez le bouton : si votre navigateur propose l'installation, elle se fait en un toucher. Sinon, suivez les étapes ci-dessous — l'icône installée sera votre logo, celui que vous avez envoyé.</p>
+    <button class="btn btn-a btn-dl" id="installBtn">↓&nbsp;<span data-i="app_btn">Installer l'application</span></button>
+    <p class="note" id="installedNote" hidden data-i="app_done" style="text-align:center">L'application est installée sur votre téléphone.</p>
+    <br /><a class="logo-dl" href="__IMG0__" download="park-hyatt-risehy-logo.jpg" data-i="app_logo_dl">Télécharger votre logo (fichier image)</a>
+  </div>
+  <div class="plain" id="install-steps">
+    <h3 data-i="app_steps_t">Si le bouton ne lance pas l'installation (Android · Chrome)</h3>
+    <ol>
+      <li data-i="app_s1">Ouvrez cette page dans Chrome sur votre téléphone.</li>
+      <li data-i="app_s2">Touchez le menu ⋮ en haut à droite du navigateur.</li>
+      <li data-i="app_s3">Touchez « Installer l'application » ou « Ajouter à l'écran d'accueil ».</li>
+      <li data-i="app_s4">Confirmez : l'icône RiseHY — votre logo — apparaît sur l'écran d'accueil.</li>
+    </ol>
+    <h3 data-i="app_ios_t">Sur iPhone (Safari)</h3>
+    <ol>
+      <li data-i="app_ios1">Ouvrez cette page dans Safari, puis touchez le bouton Partager.</li>
+      <li data-i="app_ios2">Touchez « Sur l'écran d'accueil », puis « Ajouter ».</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+<footer><div class="wrap"><span data-i="foot">Park Hyatt RiseHY — fiches du Park Hyatt Marrakech, station Issam Rhachi. Quantités fidèles aux fiches techniques fournies.</span></div></footer>
+<script>
+var I = {
+fr:{brandsub:"Cuisine · Sushi · Marrakech",nav_home:"Accueil",nav_recipes:"Fiches techniques",nav_sauces:"Sauces",nav_gear:"Matériel",nav_story:"Histoire du sushi",nav_hygiene:"Hygiène & bases",
+hero_kick:"Park Hyatt Marrakech · Issam Rhachi",hero_title:"La cuisine du Pavillon, expliquée fiche par fiche",hero_sub:"Toutes les fiches techniques de la station sushi & ceviche : ingrédients, quantités pour 10 portions (sauf le Shari, compté au kilo : 1 kg de riz = 1 L d'eau et 330 g de vinaigre de riz), sauces, matériel et hygiène — en français, anglais et arabe.",hero_b1:"Voir les fiches techniques",hero_b2:"L'histoire du sushi",
+st1:"Fiches techniques",st2:"Sauces & préparations",st3:"Portions par fiche (Shari : au kilo de riz)",st4:"Langues : FR · EN · عربي",
+f1t:"Fiches techniques",f1d:"Nigiri, rolls, ceviches, tiradito, poke bowl, tempura, burger… avec calculateur de portions.",f2t:"Les sauces",f2d:"Leche de tigre, ponzu, acevichada, limeña, nikkei, abura, aïolis… chaque sauce avec sa recette complète.",f3t:"Le matériel",f3d:"Couteaux, hangiri, makisu, cuiseur à riz… à quoi sert chaque outil de la station sushi.",f4t:"Hygiène & bases",f4d:"Shari, neta, nori, chaîne du froid et règles d'hygiène pour le poisson cru.",open:"Ouvrir →",home_cat:"Parcourir par famille",
+rec_title:"Fiches techniques",rec_sub:"Recettes du Park Hyatt Marrakech (station Issam Rhachi), base 10 portions sauf mention contraire. Touchez une fiche pour le détail et ajustez le nombre de portions : les quantités se recalculent.",search_ph:"Rechercher : saumon, ponzu, gambas…",
+sau_title:"Les sauces",sau_sub:"Toutes les sauces et préparations de base qui reviennent dans les fiches — touchez une sauce pour sa recette complète.",
+gear_title:"Le matériel de la station sushi",gear_sub:"Chaque outil a son rôle : découpe, façonnage, cuisson du riz et dressage.",
+story_title:"L'histoire du sushi",story_sub:"Comment le sushi est devenu ce qu'on sert aujourd'hui : du poisson fermenté du VIIIᵉ siècle au nigiri d'Edo, puis à l'icône mondiale.",def_t:"C'est quoi, le sushi ?",def_d:"Un plat traditionnel japonais composé de riz vinaigré (shari) associé à du poisson cru, des fruits de mer ou des légumes, parfois enveloppé d'une feuille d'algue nori. Né en Asie du Sud-Est et en Chine comme méthode de conservation du poisson dans le riz fermenté, il a été introduit au Japon ; au XIXᵉ siècle à Tokyo, le chef Hanaya Yohei crée le sushi moderne comme cuisine de rue.",video:"▶ Vidéo citée dans le document « Sushi »",types_t:"Les types de sushi",sashimi_note:"Le sashimi n'est pas un sushi : c'est la chair de poisson pure, sans riz, présentée pour apprécier la saveur authentique et la qualité du poisson.",
+hyg_title:"Hygiène & bases du sushi",hyg_sub:"Les ingrédients de base et les règles qui protègent le produit cru, de la réception au dressage.",rules_t:"Règles d'hygiène de la station",
+foot:"Park Hyatt RiseHY — fiches du Park Hyatt Marrakech, station Issam Rhachi. Quantités fidèles aux fiches techniques fournies.",
+portions:"portions",base:"Base",ing:"Ingrédient",qty:"Quantité",unit:"Unité",back:"← Toutes les fiches",progression:"Progression",for_portions:"Recalculer pour :",used_in:"Utilisée dans :",cat_all:"Tout",nores:"Aucune fiche ne correspond à la recherche.",
+nav_app:"Télécharger l'app",hero_b3:"Télécharger l'app",app_title:"Installer Park Hyatt RiseHY sur votre téléphone",app_sub:"Installez l'application sur l'écran d'accueil de votre téléphone : votre logo RiseHY devient son icône, et elle s'ouvre en plein écran avec toutes les fiches — comme une application téléchargée.",app_card_d:"Touchez le bouton pour afficher les étapes d'installation : en moins d'une minute, l'application est sur votre écran d'accueil — et son icône sera votre logo, celui que vous avez envoyé.",app_btn:"Installer l'application",app_done:"L'application est installée sur votre téléphone.",app_logo_dl:"Télécharger votre logo (fichier image)",app_steps_t:"Si le bouton ne lance pas l'installation (Android · Chrome)",app_s1:"Ouvrez cette page dans Chrome sur votre téléphone.",app_s2:"Touchez le menu ⋮ en haut à droite du navigateur.",app_s3:"Touchez « Installer l'application » ou « Ajouter à l'écran d'accueil ».",app_s4:"Confirmez : l'icône RiseHY — votre logo — apparaît sur l'écran d'accueil.",app_ios_t:"Sur iPhone (Safari)",app_ios1:"Ouvrez cette page dans Safari, puis touchez le bouton Partager.",app_ios2:"Touchez « Sur l'écran d'accueil », puis « Ajouter »."},
+en:{brandsub:"Kitchen · Sushi · Marrakech",nav_home:"Home",nav_recipes:"Recipe sheets",nav_sauces:"Sauces",nav_gear:"Equipment",nav_story:"History of sushi",nav_hygiene:"Hygiene & basics",
+hero_kick:"Park Hyatt Marrakech · Issam Rhachi",hero_title:"The Pavillon kitchen, explained sheet by sheet",hero_sub:"Every technical sheet of the sushi & ceviche station: ingredients, quantities for 10 portions (except the Shari, counted by the kilo: 1 kg rice = 1 L water and 330 g rice vinegar), sauces, equipment and hygiene — in French, English and Arabic.",hero_b1:"See the recipe sheets",hero_b2:"The history of sushi",
+st1:"Recipe sheets",st2:"Sauces & preparations",st3:"Portions per sheet (Shari: by the kilo)",st4:"Languages: FR · EN · عربي",
+f1t:"Recipe sheets",f1d:"Nigiri, rolls, ceviches, tiradito, poke bowl, tempura, burger… with a portion calculator.",f2t:"The sauces",f2d:"Leche de tigre, ponzu, acevichada, limeña, nikkei, abura, aiolis… every sauce with its full recipe.",f3t:"Equipment",f3d:"Knives, hangiri, makisu, rice cooker… what every tool of the sushi station is for.",f4t:"Hygiene & basics",f4d:"Shari, neta, nori, the cold chain and hygiene rules for raw fish.",open:"Open →",home_cat:"Browse by family",
+rec_title:"Recipe sheets",rec_sub:"Park Hyatt Marrakech recipes (Issam Rhachi station), base 10 portions unless stated. Tap a sheet for details and adjust the portions: quantities recalculate automatically.",search_ph:"Search: salmon, ponzu, prawns…",
+sau_title:"The sauces",sau_sub:"Every sauce and base preparation used across the sheets — tap a sauce for its full recipe.",
+gear_title:"Sushi station equipment",gear_sub:"Every tool has a job: cutting, shaping, rice cooking and plating.",
+story_title:"The history of sushi",story_sub:"How sushi became what we serve today: from 8th-century fermented fish to Edo nigiri, then a global icon.",def_t:"What is sushi?",def_d:"A traditional Japanese dish of vinegared rice (shari) paired with raw fish, seafood or vegetables, sometimes wrapped in a sheet of nori seaweed. It began in Southeast Asia and China as a way to preserve fish in fermented rice, then reached Japan; in 19th-century Tokyo, chef Hanaya Yohei created modern sushi as street food.",video:"▶ Video cited in the “Sushi” document",types_t:"Types of sushi",sashimi_note:"Sashimi is not sushi: it is pure fish flesh, without rice, presented to appreciate the authentic flavour and quality of the fish.",
+hyg_title:"Hygiene & sushi basics",hyg_sub:"The base ingredients and the rules that protect raw product, from delivery to plating.",rules_t:"Station hygiene rules",
+foot:"Park Hyatt RiseHY — Park Hyatt Marrakech sheets, Issam Rhachi station. Quantities faithful to the technical sheets provided.",
+portions:"portions",base:"Base",ing:"Ingredient",qty:"Quantity",unit:"Unit",back:"← All sheets",progression:"Method",for_portions:"Recalculate for:",used_in:"Used in:",cat_all:"All",nores:"No sheet matches your search.",
+nav_app:"Get the app",hero_b3:"Get the app",app_title:"Install Park Hyatt RiseHY on your phone",app_sub:"Install the app on your phone's home screen: your RiseHY logo becomes its icon, and it opens full-screen with every recipe sheet — like a downloaded app.",app_card_d:"Tap the button to see the installation steps: in under a minute the app is on your home screen — and its icon will be your logo, the one you sent.",app_btn:"Install the app",app_done:"The app is installed on your phone.",app_logo_dl:"Download your logo (image file)",app_steps_t:"If the button does not start the installation (Android · Chrome)",app_s1:"Open this page in Chrome on your phone.",app_s2:"Tap the ⋮ menu at the top right of the browser.",app_s3:"Tap “Install app” or “Add to Home screen”.",app_s4:"Confirm: the RiseHY icon — your logo — appears on your home screen.",app_ios_t:"On iPhone (Safari)",app_ios1:"Open this page in Safari, then tap the Share button.",app_ios2:"Tap “Add to Home Screen”, then “Add”."},
+ar:{brandsub:"المطبخ · السوشي · مراكش",nav_home:"الرئيسية",nav_recipes:"الوصفات التقنية",nav_sauces:"الصلصات",nav_gear:"المعدات",nav_story:"تاريخ السوشي",nav_hygiene:"النظافة والأساسيات",
+hero_kick:"بارك حياة مراكش · عصام الراشي",hero_title:"مطبخ البافيون، مشروح وصفة بوصفة",hero_sub:"جميع الوصفات التقنية لقسم السوشي والسيفيتشي: المكونات، المقادير لـ10 حصص (عدا الشاري، يُحسب بالكيلو: 1 كغ أرز = 1 لتر ماء و330 غ خل أرز)، الصلصات، المعدات والنظافة — بالفرنسية والإنجليزية والعربية.",hero_b1:"شاهد الوصفات التقنية",hero_b2:"تاريخ السوشي",
+st1:"وصفات تقنية",st2:"صلصات وتحضيرات",st3:"حصص في كل وصفة (الشاري: بالكيلو)",st4:"اللغات: فرنسية · إنجليزية · عربية",
+f1t:"الوصفات التقنية",f1d:"نيغيري، رولز، سيفيتشي، تيراديتو، بوكي بول، تمبورا، برغر… مع حاسبة للحصص.",f2t:"الصلصات",f2d:"ليتشي دي تيغري، بونزو، آسيفيتشادا، ليمينيا، نيكي، آبورا، أيولي… كل صلصة بوصفتها الكاملة.",f3t:"المعدات",f3d:"السكاكين، الهانغيري، الماكيسو، طنجرة الأرز… دور كل أداة في قسم السوشي.",f4t:"النظافة والأساسيات",f4d:"الشاري، النيتا، النوري، سلسلة التبريد وقواعد النظافة للسمك النيئ.",open:"افتح ←",home_cat:"تصفح حسب العائلة",
+rec_title:"الوصفات التقنية",rec_sub:"وصفات بارك حياة مراكش (قسم عصام الراشي)، الأساس 10 حصص إلا إذا ذُكر غير ذلك. اضغط على وصفة للتفاصيل وبدّل عدد الحصص: المقادير تُعاد حسابها تلقائياً.",search_ph:"ابحث: سلمون، بونزو، قمرون…",
+sau_title:"الصلصات",sau_sub:"كل الصلصات والتحضيرات الأساسية المستعملة في الوصفات — اضغط على صلصة لوصفتها الكاملة.",
+gear_title:"معدات قسم السوشي",gear_sub:"لكل أداة دورها: التقطيع، التشكيل، طهي الأرز والتقديم.",
+story_title:"تاريخ السوشي",story_sub:"كيف وصل السوشي إلى ما نقدّمه اليوم: من السمك المخمّر في القرن الثامن إلى نيغيري إيدو، ثم أيقونة عالمية.",def_t:"ما هو السوشي؟",def_d:"طبق ياباني تقليدي مكوّن من أرز متبّل بالخل (شاري) مع سمك نيئ أو فواكه البحر أو الخضار، وأحياناً ملفوف بورقة نوري. بدأ في جنوب شرق آسيا والصين كطريقة لحفظ السمك في الأرز المخمّر، ثم وصل إلى اليابان؛ وفي طوكيو في القرن التاسع عشر ابتكر الشيف هانايا يوهي السوشي الحديث كأكل شارع.",video:"◀ فيديو مذكور في وثيقة «السوشي»",types_t:"أنواع السوشي",sashimi_note:"الساشيمي ليس سوشي: هو لحم السمك الصافي، بدون أرز، يُقدَّم للاستمتاع بالنكهة الأصلية وجودة السمك.",
+hyg_title:"النظافة وأساسيات السوشي",hyg_sub:"المكونات الأساسية والقواعد التي تحمي المنتج النيئ، من الاستلام إلى التقديم.",rules_t:"قواعد النظافة في القسم",
+foot:"بارك حياة رايز HY — وصفات بارك حياة مراكش، قسم عصام الراشي. المقادير مطابقة للوصفات التقنية المقدَّمة.",
+portions:"حصص",base:"الأساس",ing:"المكوّن",qty:"الكمية",unit:"الوحدة",back:"← كل الوصفات",progression:"طريقة التحضير",for_portions:"أعد الحساب لـ:",used_in:"تُستعمل في:",cat_all:"الكل",nores:"لا توجد وصفة مطابقة للبحث.",
+nav_app:"تحميل التطبيق",hero_b3:"حمّل التطبيق",app_title:"ثبّت Park Hyatt RiseHY على هاتفك",app_sub:"ثبّت التطبيق على الشاشة الرئيسية لهاتفك: يصبح شعار RiseHY الخاص بك أيقونته، ويفتح بملء الشاشة مع جميع الوصفات — مثل تطبيق محمّل.",app_card_d:"اضغط الزر لعرض خطوات التثبيت: في أقل من دقيقة يصبح التطبيق على شاشتك الرئيسية — وأيقونته ستكون شعارك، الذي أرسلته.",app_btn:"تثبيت التطبيق",app_done:"تم تثبيت التطبيق على هاتفك.",app_logo_dl:"تحميل شعارك (ملف صورة)",app_steps_t:"إذا لم يُطلق الزر التثبيت (أندرويد · كروم)",app_s1:"افتح هذه الصفحة في كروم على هاتفك.",app_s2:"اضغط قائمة ⋮ في أعلى المتصفح.",app_s3:"اضغط «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».",app_s4:"أكّد: ستظهر أيقونة RiseHY — شعارك — على الشاشة الرئيسية.",app_ios_t:"على آيفون (سفاري)",app_ios1:"افتح هذه الصفحة في سفاري، ثم اضغط زر المشاركة.",app_ios2:"اضغط «على الشاشة الرئيسية»، ثم «إضافة»."}
+};
+var CATS={
+ nigiri:{fr:"Nigiri",en:"Nigiri",ar:"نيغيري"},
+ rolls:{fr:"Rolls & sélections",en:"Rolls & selections",ar:"رولز واختيارات"},
+ ceviche:{fr:"Ceviches & tiradito",en:"Ceviches & tiradito",ar:"سيفيتشي وتيراديتو"},
+ chaud:{fr:"Bowls, tacos & chaud",en:"Bowls, tacos & hot",ar:"أطباق ساخنة وتاكو"},
+ base:{fr:"Bases",en:"Bases",ar:"أساسيات"}
+};
+function G(fr,en,ar){return{fr:fr,en:en,ar:ar}}
+var R=[
+{id:"shari",cat:"base",img:"__IMG1__",base:1,scaleOpts:[1,2,3,4,5,10],scaleUnit:G("kg de riz","kg of rice","كغ أرز"),baseLabel:{fr:"Base : 1 kg de riz",en:"Base: 1 kg of rice",ar:"الأساس: 1 كغ أرز"},title:"Riz à sushi — Shari",sub:G("La règle du chef : 1 kg de riz = 1 L d'eau, puis 330 g de vinaigre de riz","The chef's rule: 1 kg rice = 1 L water, then 330 g rice vinegar","قاعدة الشيف: 1 كغ أرز = 1 لتر ماء، ثم 330 غ خل أرز"),
+ groups:[{t:G("Cuisson — pour 1 kg de riz","Cooking — per 1 kg of rice","الطهي — لكل 1 كغ أرز"),items:[["Riz à sushi (grain rond)",1,"kg"],["Eau",1,"L"]]},
+ {t:G("Assaisonnement — après cuisson","Seasoning — after cooking","التتبيلة — بعد الطهي"),items:[["Vinaigre de riz préparé",330,"g"]]}],
+ steps:G("Préparer le vinaigre de riz assaisonné du chef : 20 L de vinaigre + 14 kg de sucre (sanida) + 7 kg de sel. Laver le riz 5 à 6 fois en évitant de le casser, le passer au tamis et laisser reposer 5 minutes. Verser le riz dans le cuiseur à riz avec la même quantité d'eau que de riz : 1 L d'eau pour 1 kg de riz. Une fois cuit, placer le riz dans le hangiri et ajouter le vinaigre de riz préparé : 330 g par kilo de riz. Mélanger à la spatule en caoutchouc et répéter toutes les 3 minutes jusqu'à ce que le riz soit froid et ait absorbé le vinaigre. Couvrir d'un linge humide. Règle du chef vérifiée : ce ratio 1 kg = 1 L = 330 g remplace les quantités imprimées de l'ancienne fiche (2 L d'eau, 0,750 L d'assaisonnement).","Prepare the chef's seasoned rice vinegar: 20 L of vinegar + 14 kg of sugar + 7 kg of salt. Wash the rice 5 to 6 times without breaking it, drain in a sieve and rest 5 minutes. Cook in the rice cooker with the same amount of water as rice: 1 L of water for 1 kg of rice. Once cooked, tip the rice into the hangiri and add the prepared rice vinegar: 330 g per kilo of rice. Fold with a rubber spatula and repeat every 3 minutes until the rice is cold and has absorbed the vinegar. Cover with a damp cloth. Verified chef's rule: this 1 kg = 1 L = 330 g ratio replaces the old sheet's printed quantities (2 L water, 0.750 L seasoning).","حضّر خل الأرز المتبّل ديال الشيف: 20 لتر خل + 14 كغ سكر (سانيدة) + 7 كغ ملح. اغسل الأرز 5 إلى 6 مرات دون كسره، صفِّه واتركه يرتاح 5 دقائق. اطهُه في طنجرة الأرز بنفس كمية الماء: 1 لتر ماء لكل 1 كغ أرز. بعد الطهي، ضعه في الهانغيري وأضف خل الأرز المحضّر: 330 غ لكل كيلو أرز. اخلط بملعقة مطاطية وكرر كل 3 دقائق حتى يبرد الأرز ويمتص الخل. غطِّه بقطعة قماش رطبة. قاعدة الشيف المؤكدة: هذه النسبة 1 كغ = 1 لتر = 330 غ تعوّض مقادير الورقة المطبوعة القديمة (2 لتر ماء، 0.750 لتر تتبيلة).")},
+{id:"nigiri-omakase",cat:"nigiri",img:"__IMG1__",base:10,title:"Nigiri sélection Omakase",sub:G("Bar, gambas, saumon, thon toro","Sea bass, prawns, salmon, tuna toro","قاروص، قمرون، سلمون، تونة تورو"),
+ groups:[{t:G("Nigiri","Nigiri","نيغيري"),items:[["Bar sauvage",0.3,"kg"],["Gambas 16/20 net",0.4,"kg"],["Saumon frais net",0.3,"kg"],["Thon rouge toro net",0.3,"kg"],["Feuille de bambou",10,"pièce"],["Œufs de saumon ikura",0.01,"kg"],["Riz à sushi",1,"kg"],["Wasabi",0.1,"kg"],["Cébette",0.03,"kg"],["Sauce anticuchera",0.1,"kg"],["Sauce ponzu",0.1,"L"],["Sauce abura",0.05,"L"]]},
+ {t:G("Sauce abura (100 ml)","Abura sauce (100 ml)","صلصة آبورا (100 مل)"),items:[["Huile de table",0.1,"L"],["Huile d'olive",0.07,"L"],["Huile de sésame",0.05,"L"],["Togarashi",null,"PM"],["Gingembre",null,"PM"],["Ail",null,"PM"],["Sel",null,"PM"]]}]},
+{id:"nigiri-pavillon",cat:"nigiri",img:"__IMG1__",base:10,title:"Nigiri sélection Pavillon",sub:G("Toro, homard, wagyu, sardine flambée","Toro, lobster, wagyu, flamed sardine","تورو، كركند، واغيو، سردين مشعّل"),
+ groups:[{t:G("Nigiri","Nigiri","نيغيري"),items:[["Toro",0.3,"kg"],["Homard net",0.3,"kg"],["Bœuf wagyu net",0.3,"kg"],["Sardine flambée net",0.2,"kg"],["Caviar",0.003,"pièce"],["Sauce (fiche)",0.1,"kg"],["Sauce chimichurri",0.1,"kg"],["Mayonnaise confit dashi",0.1,"kg"],["Riz à sushi",1,"kg"]]},
+ {t:G("Aïoli safrané","Saffron aioli","أيولي بالزعفران"),items:[["Ail",0.1,"kg"],["Œuf",1,"pièce"],["Jus de yuzu",0.01,"L"],["Huile",0.2,"L"],["Sel",null,"PM"],["Poivre",null,"PM"],["Safran",null,"PM"]]}]},
+{id:"rolls-pavillon",cat:"rolls",img:"__IMG3__",base:10,title:"Rolls sélection Pavillon",sub:G("Gambas, tartare de toro, bar sauvage","Prawns, toro tartare, wild sea bass","قمرون، ترتار تورو، قاروص بري"),
+ groups:[{t:G("Rolls","Rolls","رولز"),items:[["Gambas 16/20 net",0.2,"kg"],["Tartare toro",0.2,"kg"],["Caviar et condiments iodés",0.003,"kg"],["Bar sauvage",0.08,"kg"],["Nori",0.333,"pc"],["Cébette",0.03,"kg"],["Avocat",0.06,"kg"],["Oignons",0.01,"kg"],["Riz à sushi",1.3,"kg"]]},
+ {t:G("Sauce ponzu","Ponzu sauce","صلصة بونزو"),items:[["Jus de yuzu",0.05,"L"],["Soja Kikkoman",0.025,"L"],["Huile de sésame",0.005,"L"],["Togarashi",null,"PM"]]},
+ {t:G("Sauce acevichada","Acevichada sauce","صلصة آسيفيتشادا"),items:[["Mayonnaise japonaise Kewpie",0.1,"kg"],["Pâte aji amarillo",0.03,"kg"],["Sauce leche de tigre",0.075,"L"],["Togarashi",null,"PM"],["Sel",null,"PM"],["Poivre",null,"PM"]]}]},
+{id:"rolls-omakase",cat:"rolls",img:"__IMG3__",base:10,title:"Rolls sélection Omakase",sub:G("Chair d'araignée, tartare de bœuf, boutargue","Spider crab, beef tartare, bottarga","لحم سرطان البحر، ترتار بقر، بوتارغ"),
+ groups:[{t:G("Rolls","Rolls","رولز"),items:[["Chair d'araignée net",0.4,"kg"],["Tartare de bœuf net",0.2,"kg"],["Boutargue",0.003,"kg"],["Mangue",0.05,"kg"],["Concombre",0.1,"kg"],["Guacamole",0.15,"kg"],["Riz à sushi",1.3,"kg"]]},
+ {t:G("Aïoli yuzu","Yuzu aioli","أيولي باليوزو"),items:[["Ail",0.1,"kg"],["Œuf",1,"pièce"],["Jus de yuzu",0.01,"L"],["Huile",0.2,"L"],["Sel",null,"PM"],["Poivre",null,"PM"]]},
+ {t:G("Guacamole","Guacamole","غواكامولي"),items:[["Avocat",0.2,"kg"],["Oignon rouge",0.05,"kg"],["Tomate",0.05,"kg"],["Jus de citron",0.03,"L"],["Coriandre",null,"PM"],["Sel",null,"PM"],["Poivre",null,"PM"]]},
+ {t:G("Truffe teriyaki","Truffle teriyaki","ترياكي بالكمأة"),items:[["Soja Kikkoman",0.05,"L"],["Fumet de poisson",0.5,"L"],["Sucre semoule blanc",0.15,"kg"],["Truffe",0.02,"kg"],["Gingembre",0.003,"kg"]]}]},
+{id:"ceviche-gambas",cat:"ceviche",img:"__IMG4__",base:10,title:"Ceviche de gambas",sub:G("Leche de tigre, patate douce, maïs chulpi","Leche de tigre, sweet potato, chulpi corn","ليتشي دي تيغري، بطاطس حلوة، ذرة تشولبي"),
+ groups:[{t:G("Ceviche","Ceviche","سيفيتشي"),items:[["Gambas 40/50",910,"g"],["Patate douce",120,"g"],["Maïs chulpi",150,"g"]]},
+ {t:G("Sauce leche de tigre","Leche de tigre sauce","صلصة ليتشي دي تيغري"),items:[["Jus de citron",1,"L"],["Ail",0.07,"kg"],["Gingembre frais",0.05,"kg"],["Céleri",0.19,"kg"],["Piment fort",0.01,"kg"],["Oignon blanc",0.13,"kg"],["Dorade",0.14,"kg"],["Fumet de poisson",0.4,"L"],["Sel",0.06,"kg"],["Poivron",0.01,"kg"],["Tiges de coriandre",0.015,"botte"]]},
+ {t:G("Sauce limeña aji amarillo","Limeña aji amarillo sauce","صلصة ليمينيا آخي أماريلو"),items:[["Orange",800,"g"],["Fruit de la passion",300,"g"],["Yuzu",30,"g"]]}],
+ steps:G("Mariner les gambas dans la leche de tigre bien froide ; servir avec la patate douce et le maïs chulpi. La sauce d'orange-passion-yuzu (800 g réduits à 400 g) se finit avec 10 g de sauce nikkei.","Marinate the prawns in well-chilled leche de tigre; serve with sweet potato and chulpi corn. The orange-passion-yuzu sauce (800 g reduced to 400 g) is finished with 10 g nikkei sauce.","نقّع القمرون في ليتشي دي تيغري باردة جيداً؛ قدّمه مع البطاطس الحلوة وذرة التشولبي. صلصة البرتقال وفاكهة العاطفة واليوزو (800 غ تُخفَّض إلى 400 غ) تُنهى بـ10 غ من صلصة النيكي.")},
+{id:"ceviche-poulpe",cat:"ceviche",img:"__IMG4__",base:10,title:"Ceviche poulpe et gambas",sub:G("Aji amarillo, huile de coriandre","Aji amarillo, coriander oil","آخي أماريلو، زيت الكزبرة"),
+ groups:[{t:G("Ceviche","Ceviche","سيفيتشي"),items:[["Gambas",1,"kg"],["Poulpe",1,"kg"],["Oignon rouge",0.2,"kg"],["Feuilles de coriandre",0.015,"botte"],["Piment fort",0.03,"kg"],["Sel",0.1,"kg"],["Poivre",0.01,"kg"],["Jus de citron",0.35,"L"],["Pâte aji amarillo",0.3,"kg"],["Huile de coriandre",0.1,"L"],["Sauce leche de tigre",0.75,"L"]]},
+ {t:G("Garniture","Garnish","التزيين"),items:[["Patate douce",0.15,"kg"],["Avocat",0.3,"kg"],["Maïs chulpi",0.15,"kg"]]},
+ {t:G("Sauce leche de tigre (1,200 L)","Leche de tigre sauce (1.200 L)","صلصة ليتشي دي تيغري (1.200 لتر)"),items:[["Jus de citron",1,"L"],["Ail",0.03,"kg"],["Gingembre frais",0.05,"kg"],["Céleri",0.19,"kg"],["Piment fort",0.01,"kg"],["Oignon blanc",0.13,"kg"],["Daurade",0.14,"kg"],["Fumet de poisson",0.4,"L"],["Sel",0.06,"kg"],["Glutamate",0.03,"kg"],["Poivre",0.01,"kg"],["Tiges de coriandre",0.015,"botte"]]},
+ {t:G("Patate douce","Sweet potato","البطاطس الحلوة"),items:[["Patate douce (cube)",0.5,"kg"],["Jus d'orange",0.25,"L"],["Sucre blanc",0.05,"kg"],["Cannelle",0.01,"kg"]]}]},
+{id:"tiradito",cat:"ceviche",img:"__IMG1__",base:10,title:"Tiradito de saumon",sub:G("Ikura, fruit de la passion, huile verte","Ikura, passion fruit, green oil","إيكورا، فاكهة العاطفة، زيت أخضر"),
+ groups:[{t:G("Tiradito","Tiradito","تيراديتو"),items:[["Saumon",1.2,"kg"],["Œufs de saumon ikura",0.1,"kg"],["Fruits de la passion",0.5,"kg"],["Huile verte",0.2,"L"]]},
+ {t:G("Sauce fruit de la passion","Passion fruit sauce","صلصة فاكهة العاطفة"),items:[["Jus de yuzu",0.25,"L"],["Sauce nikkei",0.1,"L"],["Fruit de la passion",0.2,"L"],["Sel",5,"g"]]}]},
+{id:"kinilaw",cat:"ceviche",img:"__IMG4__",base:10,title:"Kinilaw de dorade",sub:G("Version philippine : lait de coco, vinaigre","Philippine style: coconut milk, vinegar","على الطريقة الفلبينية: حليب جوز الهند والخل"),
+ groups:[{t:G("Kinilaw","Kinilaw","كينيلاو"),items:[["Dorade",1,"kg"],["Gingembre",0.15,"kg"],["Piment fort",0.08,"kg"],["Concombre",0.5,"kg"],["Tomate cerise",0.5,"kg"],["Ail",0.08,"kg"],["Oignon",0.5,"kg"],["Pomme en tranches",0.25,"kg"]]},
+ {t:G("Sauce kinilaw (base 20 p.)","Kinilaw sauce (base 20 p.)","صلصة كينيلاو (أساس 20 حصة)"),base:20,items:[["Lait de coco",0.4,"kg"],["Citronnelle",0.2,"kg"],["Citron",0.1,"kg"],["Vinaigre",0.1,"L"],["Sucre",0.02,"kg"],["Yuk man",0.02,"L"],["Sel",0.01,"kg"]]}]},
+{id:"poke",cat:"chaud",img:"__IMG5__",base:10,title:"Poke Bowl",sub:G("Quinoa, edamame, ananas, mangue, wakame","Quinoa, edamame, pineapple, mango, wakame","كينوا، إدامامي، أناناس، مانغو، واكامي"),
+ groups:[{t:G("Bowl — base quinoa","Bowl — quinoa base","البول — قاعدة الكينوا"),items:[["Quinoa",1.8,"kg"],["Edamame",0.5,"kg"],["Ananas",0.5,"kg"],["Avocat",0.5,"kg"],["Tomate cerise",0.3,"kg"],["Goma wakame",0.2,"kg"],["Mangue",0.3,"kg"],["Champignons",0.3,"kg"],["Chou rouge",0.15,"kg"]]},
+ {t:G("Sauce poke bowl","Poke bowl sauce","صلصة البوكي بول"),items:[["Soja",0.1,"L"],["Citron",0.1,"L"],["Huile de sésame",0.02,"L"]]}],
+ steps:G("Base quinoa — remplacement demandé par le chef : le riz à sushi de la fiche imprimée (1,800 kg) est remplacé par la même quantité de quinoa, 1,800 kg pour 10 portions. Tout le reste du bowl reste celui de la fiche : edamame, ananas, avocat, tomate cerise, goma wakame, mangue, champignons et chou rouge, sauce poke bowl versée au dressage. Aucune fiche de préparation du quinoa ne figure dans les fiches techniques fournies : ni quantité d'eau ni temps de cuisson n'y sont indiqués, donc aucun n'est ajouté ici.","Quinoa base — substitution requested by the chef: the printed sheet's sushi rice (1.800 kg) is replaced by the same quantity of quinoa, 1.800 kg for 10 portions. Everything else in the bowl stays as on the sheet: edamame, pineapple, avocado, cherry tomato, goma wakame, mango, mushrooms and red cabbage, with the poke bowl sauce poured at plating. No quinoa preparation sheet appears in the technical sheets provided: no water quantity and no cooking time are given there, so none is added here.","قاعدة الكينوا — تبديل طلبه الشيف: أرز السوشي في الوصفة المطبوعة (1.800 كغ) يُعوَّض بنفس كمية الكينوا، 1.800 كغ لـ10 حصص. وكل ما تبقى في البول يبقى كما في الوصفة: إدامامي، أناناس، أفوكا، طماطم كرزية، غوما واكامي، مانغو، فطر وملفوف أحمر، مع صلصة البوكي بول تُسكب عند التقديم. لا توجد أي وصفة لتحضير الكينوا في الوصفات التقنية المقدَّمة: لا كمية ماء ولا مدة طهي مذكورة فيها، لذلك لم يُضف أيٌّ منها هنا.")},
+{id:"tacos",cat:"chaud",img:"__IMG6__",base:10,title:"Trio de tacos",sub:G("Saumon, thon et végétarien","Salmon, tuna and vegetarian","سلمون، تونة ونباتي"),
+ groups:[{t:G("Tacos","Tacos","تاكو"),items:[["Saumon net",300,"g"],["Thon net",300,"g"],["Pâte à tacos",240,"g"],["Chou blanc",100,"g"],["Champignons de Paris",100,"g"],["Courgette",100,"g"],["Carotte",100,"g"],["Soja",20,"g"],["Sauce huître",20,"g"],["Huile de sésame",20,"g"]]},
+ {t:G("Spicy mayo yuzu (base 30 p.)","Spicy mayo yuzu (base 30 p.)","مايونيز حار باليوزو (أساس 30 حصة)"),base:30,items:[["Mayonnaise",600,"g"],["Sriracha (chiripacha)",300,"g"],["Citron",20,"g"],["Soja",10,"g"],["Sauce huître",10,"g"],["Yuzu",10,"g"],["Gingembre",10,"g"],["Ail",5,"g"]]},
+ {t:G("Mayonnaise ponzu","Ponzu mayonnaise","مايونيز بونزو"),items:[["Mayonnaise",600,"g"],["Ponzu",200,"g"]]}]},
+{id:"popshrimp",cat:"chaud",img:"__IMG6__",base:10,title:"Pop-Shrimp & Tempura gambas",sub:G("Gambas croustillantes, spicy mayo yuzu","Crispy prawns, spicy mayo yuzu","قمرون مقرمش، مايونيز حار باليوزو"),
+ groups:[{t:G("Pop-Shrimp","Pop-Shrimp","بوب شريمب"),items:[["Gambas net",800,"g"]]},
+ {t:G("Tempura (base 20 p.)","Tempura (base 20 p.)","تمبورا (أساس 20 حصة)"),base:20,items:[["Farine tempura",200,"g"],["2ᵉ ingrédient — non lu sur la fiche",400,"g"],["Sel",10,"g"],["Poivron",10,"g"],["Levure chimique",1,"pièce"]]},
+ {t:G("Spicy mayo yuzu (base 20 p.)","Spicy mayo yuzu (base 20 p.)","مايونيز حار باليوزو (أساس 20 حصة)"),base:20,items:[["Mayonnaise",600,"g"],["Sriracha (chiripacha)",300,"g"],["Citron",20,"g"],["Soja",10,"g"],["Sauce huître",10,"g"],["Yuzu",10,"g"],["Gingembre",10,"g"],["Ail",5,"g"]]}]},
+{id:"burger",cat:"chaud",img:"__IMG6__",base:10,title:"Burger au poulet croustillant",sub:G("Chili jam, coleslaw, spicy mayo","Chili jam, coleslaw, spicy mayo","مربى الفلفل، كولسلو، مايونيز حار"),
+ groups:[{t:G("Marinade du poulet","Chicken marinade","تتبيلة الدجاج"),items:[["Pain hamburger",10,"pièce"],["Cuisse de poulet net",1.5,"kg"],["Sauce aux huîtres",15,"g"],["Pâte de gingembre",10,"g"],["Pâte d'ail",10,"g"],["Moutarde",10,"g"],["Sel",null,"PM"]]},
+ {t:G("Marinade sèche","Dry coating","التغليف الجاف"),items:[["Farine",0.5,"kg"],["Maïzena",0.4,"kg"],["Sel",0.02,"kg"],["Poivre noir",0.015,"kg"],["Poudre d'ail",0.015,"kg"],["Paprika",0.015,"kg"]]},
+ {t:G("Marinade liquide","Wet batter","الخليط السائل"),items:[["Eau",0.12,"L"],["Œuf",1,"pièce"],["Farine",50,"g"]]},
+ {t:G("Sauce chili jam","Chili jam sauce","صلصة مربى الفلفل"),items:[["Huile de sésame",10,"g"],["Pâte d'ail",15,"g"],["Pâte de gingembre",15,"g"],["Sauce sriracha",300,"g"],["Sauce soja",40,"g"],["Sucre blanc",50,"g"],["Vinaigre de riz",0.2,"L"],["Sauce teriyaki",60,"g"]]},
+ {t:G("Coleslaw","Coleslaw","كولسلو"),items:[["Chou blanc",500,"g"],["Crème",50,"g"],["Carotte",80,"g"],["Vinaigre de riz",0.06,"L"],["Mayonnaise",30,"g"],["Sucre blanc",30,"g"],["Graines de sésame",10,"g"],["Sel",null,"PM"]]},
+ {t:G("Spicy mayo","Spicy mayo","مايونيز حار"),items:[["Mayonnaise japonaise Kewpie",1,"kg"],["Sriracha",793,"g"],["Togarashi",30,"g"],["Sel",null,"PM"],["Poivre",null,"PM"]]},
+ {t:G("Garniture","Garnish","التزيين"),items:[["Pomme de terre",2,"kg"]]}],
+ steps:G("Mariner le poulet avec pâte d'ail, gingembre, sauce aux huîtres et moutarde. Paner : marinade sèche, marinade liquide, puis marinade sèche en éliminant l'excès de farine. Frire à 170 °C pendant 8 minutes. Griller le pain, ajouter la spicy mayo, le coleslaw, le poulet avec la chili jam et les cornichons. Pommes croustillantes : cuire à l'eau, casser à la main, frire en deux temps, finir au sel, paprika et origan séché.","Marinate the chicken with garlic paste, ginger, oyster sauce and mustard. Coat: dry mix, wet batter, then dry mix again, shaking off excess flour. Fry at 170 °C for 8 minutes. Toast the bun, add spicy mayo, coleslaw, the chicken with chili jam and pickles. Crispy potatoes: boil, crush by hand, double-fry, finish with salt, paprika and dried oregano.","تبّل الدجاج بمعجون الثوم والزنجبيل وصلصة المحار والخردل. غلّف: الخليط الجاف، ثم السائل، ثم الجاف مع إزالة الفائض. اقلِ على 170 درجة لـ8 دقائق. حمّص الخبز، أضف المايونيز الحار والكولسلو والدجاج مع مربى الفلفل والمخلل. البطاطس المقرمشة: اسلقها، كسّرها باليد، اقلِها على مرحلتين، وأنهِ بالملح والبابريكا والأوريغانو المجفف.")},
+{id:"selections",cat:"nigiri",img:"__IMG3__",base:10,title:"Sélections — notes de station",sub:G("Associations sauces / produits des sélections","Sauce / product pairings of the selections","تركيبات الصلصات والمنتجات"),
+ groups:[{t:G("Sélection Omakase","Omakase selection","اختيار أوماكاسي"),items:[["Crabe araignée — guacamole, aïoli",null,"—"],["Saumon avocat — sauce nikkei",null,"—"]]},
+ {t:G("Sélection Pavillon","Pavillon selection","اختيار بافيون"),items:[["Rolls gambas croustillantes, avocat — sauce acevichada",null,"—"],["Rolls thon",null,"—"]]},
+ {t:G("Nigiri — associations","Nigiri — pairings","نيغيري — التركيبات"),items:[["Thon — ponzu",null,"—"],["Saumon — anticuchera",null,"—"],["Gambas — sauce abura",null,"—"],["Dorade (sea bream) — aïoli",null,"—"],["Calamar — salsa limeña, aïoli safrané",null,"—"],["Bœuf — chimichurri au caviar",null,"—"],["Unagi — teriyaki",null,"—"],["Toro",null,"—"]]}]},
+{id:"tiradito-blanc",cat:"ceviche",img:"__IMG1__",base:10,title:"Tiradito de poisson blanc",sub:G("Sauce limeña, aji amarillo","Limeña sauce, aji amarillo","صلصة ليمينيا، آخي أماريلو"),
+ groups:[{t:G("Principe","Principle","المبدأ"),items:[["Poisson blanc du jour — tranches fines",null,"—"],["Sauce limeña",null,"—"],["Aji amarillo",null,"—"]]}]}
+];
+</script>
+<script>
+/* ===== Fiche 16 : notes manuscrites de station (vue d'ensemble) ===== */
+R.push({id:"notes-station",cat:"ceviche",img:"__IMG4__",base:10,title:"Notes de station — vue d'ensemble",sub:G("Tiradito, tacos, ceviche, poke, tempura (fiche manuscrite)","Tiradito, tacos, ceviche, poke, tempura (handwritten sheet)","تيراديتو، تاكو، سيفيتشي، بوكي، تمبورا (ورقة مكتوبة)"),
+ groups:[{t:G("Tiradito de poisson blanc","White fish tiradito","تيراديتو السمك الأبيض"),items:[["Sauce limeña",null,"—"],["Aji amarillo",null,"—"]]},
+ {t:G("Trio de tacos — associations","Trio of tacos — pairings","تاكو ثلاثي — التركيبات"),items:[["Saumon — spicy mayo, yuzu, zeste de citron",null,"—"],["Thon — ponzu mayo, concombre, oignon, zeste de citron",null,"—"],["Végétarien — wok de légumes, guacamole",null,"—"]]},
+ {t:G("Ceviche de gambas — note","Prawn ceviche — note","سيفيتشي القمرون — ملاحظة"),items:[["Sauce leche de tigre et patate douce",null,"—"],["Jus d'orange, fruit de la passion, yuzu — 800 g, réduit 400 g",null,"—"],["Sauce nikkei",10,"g"]]},
+ {t:G("Tempura gambas — note","Prawn tempura — note","تمبورا القمرون — ملاحظة"),items:[["Spicy mayo yuzu",null,"—"]]}]});
+
+/* ===== SAUCES : chaque sauce = un bouton séparé ===== */
+var SAUCES=[
+{n:"Leche de tigre",u:G("Ceviche de gambas · Ceviche poulpe et gambas · Sauce acevichada","Prawn ceviche · Octopus & prawn ceviche · Acevichada sauce","سيفيتشي القمرون · سيفيتشي الأخطبوط والقمرون · صلصة آسيفيتشادا"),d:G("Le « lait de tigre » péruvien : le jus citronné et mixé qui « cuit » le poisson cru par l'acidité. C'est le cœur de tous les ceviches.","The Peruvian 'tiger's milk': the blended citrus juice that 'cooks' raw fish through acidity. The heart of every ceviche.","«حليب النمر» البيروفي: عصير الحامض المخلط الذي «يطهو» السمك النيئ بالحموضة. قلب كل سيفيتشي."),
+ items:[["Jus de citron",1,"L"],["Ail",0.07,"kg"],["Gingembre frais",0.05,"kg"],["Céleri",0.19,"kg"],["Piment fort",0.01,"kg"],["Oignon blanc",0.13,"kg"],["Dorade",0.14,"kg"],["Fumet de poisson",0.4,"L"],["Sel",0.06,"kg"],["Poivron",0.01,"kg"],["Tiges de coriandre",0.015,"botte"]],
+ note:G("Version ceviche poulpe (rendement 1,200 L) : ail 0,030 kg et ajout de glutamate 0,030 kg et poivre 0,010 kg, le reste est identique.","Octopus ceviche version (yield 1.200 L): garlic 0.030 kg, plus glutamate 0.030 kg and pepper 0.010 kg; everything else is identical.","نسخة سيفيتشي الأخطبوط (الناتج 1.200 لتر): الثوم 0.030 كغ مع إضافة الغلوتامات 0.030 كغ والفلفل 0.010 كغ، والباقي نفسه.")},
+{n:"Sauce ponzu",u:G("Rolls Pavillon · Nigiri Omakase · tacos au thon","Pavillon rolls · Omakase nigiri · tuna tacos","رولز بافيون · نيغيري أوماكاسي · تاكو التونة"),d:G("Sauce japonaise claire et acidulée : soja + jus de yuzu. Elle assaisonne sans masquer le poisson.","A light, tangy Japanese sauce: soy + yuzu juice. It seasons without masking the fish.","صلصة يابانية خفيفة وحامضة: صويا + عصير اليوزو. تتبل دون إخفاء طعم السمك."),
+ items:[["Jus de yuzu",0.05,"L"],["Soja Kikkoman",0.025,"L"],["Huile de sésame",0.005,"L"],["Togarashi",null,"PM"]]},
+{n:"Sauce acevichada",u:G("Rolls Pavillon · Sélection Pavillon (rolls gambas)","Pavillon rolls · Pavillon selection (prawn rolls)","رولز بافيون · اختيار بافيون (رولز القمرون)"),d:G("Mayonnaise japonaise relevée à l'aji amarillo et à la leche de tigre : le pont entre Japon et Pérou.","Japanese mayonnaise lifted with aji amarillo and leche de tigre: the bridge between Japan and Peru.","مايونيز ياباني مع آخي أماريلو وليتشي دي تيغري: الجسر بين اليابان وبيرو."),
+ items:[["Mayonnaise japonaise Kewpie",0.1,"kg"],["Pâte aji amarillo",0.03,"kg"],["Sauce leche de tigre",0.075,"L"],["Togarashi",null,"PM"],["Sel",null,"PM"],["Poivre",null,"PM"]]},
+{n:"Sauce limeña (aji amarillo)",u:G("Ceviche de gambas · Tiradito de poisson blanc","Prawn ceviche · White fish tiradito","سيفيتشي القمرون · تيراديتو السمك الأبيض"),d:G("Sauce fruitée de Lima : orange, fruit de la passion et yuzu, réduite de moitié pour concentrer le goût.","A fruity Lima sauce: orange, passion fruit and yuzu, reduced by half to concentrate the flavour.","صلصة فاكهية من ليما: برتقال وفاكهة العاطفة ويوزو، تُخفَّض إلى النصف لتركيز النكهة."),
+ items:[["Orange",800,"g"],["Fruit de la passion",300,"g"],["Yuzu",30,"g"]],
+ note:G("Pour le ceviche de gambas : 800 g de jus réduits à 400 g, finis avec 10 g de sauce nikkei.","For the prawn ceviche: 800 g of juice reduced to 400 g, finished with 10 g of nikkei sauce.","لسيفيتشي القمرون: 800 غ من العصير تُخفَّض إلى 400 غ وتُنهى بـ10 غ من صلصة النيكي.")},
+{n:"Sauce nikkei",u:G("Sélection Omakase (saumon avocat) · Tiradito saumon · Ceviche de gambas","Omakase selection (salmon avocado) · Salmon tiradito · Prawn ceviche","اختيار أوماكاسي (سلمون أفوكا) · تيراديتو السلمون · سيفيتشي القمرون"),d:G("La cuisine nikkei est la rencontre du Japon et du Pérou. Ici la sauce nikkei parfume le tiradito et finit la limeña.","Nikkei cuisine is where Japan meets Peru. Here the nikkei sauce flavours the tiradito and finishes the limeña.","مطبخ النيكي هو لقاء اليابان وبيرو. هنا صلصة النيكي تنكّه التيراديتو وتُنهي الليمينيا."),
+ items:[["Sauce nikkei — dans la sauce fruit passion du tiradito",0.1,"L"],["Sauce nikkei — finition du ceviche de gambas",10,"g"]],
+ note:G("La fiche ne détaille pas la composition interne de la sauce nikkei : seules ces quantités d'emploi sont indiquées.","The sheet does not detail the nikkei sauce's own composition: only these usage quantities are given.","الوصفة لا تفصّل تركيبة صلصة النيكي الداخلية: مذكورة فقط كميات الاستعمال هذه.")},
+{n:"Sauce abura",u:G("Nigiri Omakase (gambas)","Omakase nigiri (prawns)","نيغيري أوماكاسي (القمرون)"),d:G("Huile parfumée au gingembre, à l'ail et au togarashi, déposée sur les nigiri de gambas.","Oil flavoured with ginger, garlic and togarashi, brushed on the prawn nigiri.","زيت منكّه بالزنجبيل والثوم والتوغاراشي، يُدهن على نيغيري القمرون."),
+ items:[["Huile de table",0.1,"L"],["Huile d'olive",0.07,"L"],["Huile de sésame",0.05,"L"],["Togarashi",null,"PM"],["Gingembre",null,"PM"],["Ail",null,"PM"],["Sel",null,"PM"]]},
+{n:"Aïoli safrané",u:G("Nigiri Pavillon (calamar)","Pavillon nigiri (squid)","نيغيري بافيون (الحبار)"),d:G("Aïoli au safran et au yuzu : ail, œuf et huile montés en émulsion, comme une mayonnaise à l'ail.","Saffron and yuzu aioli: garlic, egg and oil whisked into an emulsion, like a garlic mayonnaise.","أيولي بالزعفران واليوزو: ثوم وبيض وزيت مخفوقة كمستحلب، مثل مايونيز بالثوم."),
+ items:[["Ail",0.1,"kg"],["Œuf",1,"pièce"],["Jus de yuzu",0.01,"L"],["Huile",0.2,"L"],["Sel",null,"PM"],["Poivre",null,"PM"],["Safran",null,"PM"]]},
+{n:"Aïoli yuzu",u:G("Rolls Omakase","Omakase rolls","رولز أوماكاسي"),d:G("Même base que l'aïoli safrané, sans safran : l'acidité du yuzu remplace le citron.","Same base as the saffron aioli, without saffron: yuzu acidity replaces lemon.","نفس قاعدة أيولي الزعفران، بدون زعفران: حموضة اليوزو تعوّض الحامض."),
+ items:[["Ail",0.1,"kg"],["Œuf",1,"pièce"],["Jus de yuzu",0.01,"L"],["Huile",0.2,"L"],["Sel",null,"PM"],["Poivre",null,"PM"]]},
+{n:"Guacamole",u:G("Rolls Omakase · tacos végétariens","Omakase rolls · vegetarian tacos","رولز أوماكاسي · تاكو نباتي"),d:G("Avocat écrasé avec oignon rouge, tomate, citron et coriandre. À préparer à la minute : il noircit à l'air.","Crushed avocado with red onion, tomato, lemon and coriander. Make it at the last minute: it darkens in air.","أفوكا مهروس مع البصل الأحمر والطماطم والحامض والكزبرة. يُحضَّر في آخر لحظة: يسودّ في الهواء."),
+ items:[["Avocat",0.2,"kg"],["Oignon rouge",0.05,"kg"],["Tomate",0.05,"kg"],["Jus de citron",0.03,"L"],["Coriandre",null,"PM"],["Sel",null,"PM"],["Poivre",null,"PM"]]},
+{n:"Truffe teriyaki",u:G("Rolls Omakase · Unagi (anguille)","Omakase rolls · Unagi (eel)","رولز أوماكاسي · أوناغي (ثعبان البحر)"),d:G("Teriyaki enrichi au fumet de poisson et à la truffe : sucré-salé, brillant, il laque les rolls.","Teriyaki enriched with fish fumet and truffle: sweet-salty and glossy, it glazes the rolls.","ترياكي غني بمرق السمك والكمأة: حلو-مالح ولامع، يطلي الرولز."),
+ items:[["Soja Kikkoman",0.05,"L"],["Fumet de poisson",0.5,"L"],["Sucre semoule blanc",0.15,"kg"],["Truffe",0.02,"kg"],["Gingembre",0.003,"kg"]]},
+{n:"Sauce fruit de la passion",u:G("Tiradito de saumon","Salmon tiradito","تيراديتو السلمون"),d:G("La sauce du tiradito : yuzu, nikkei et fruit de la passion. Le jus de yuzu vaut 0,250 L — un quart de litre.","The tiradito's sauce: yuzu, nikkei and passion fruit. The yuzu juice is 0.250 L — a quarter litre.","صلصة التيراديتو: يوزو ونيكي وفاكهة العاطفة. عصير اليوزو يساوي 0.250 لتر — ربع لتر."),
+ items:[["Jus de yuzu",0.25,"L"],["Sauce nikkei",0.1,"L"],["Fruit de la passion",0.2,"L"],["Sel",5,"g"]]},
+{n:"Spicy mayo yuzu",u:G("Trio de tacos (base 30 p.) · Pop-Shrimp & tempura (base 20 p.)","Trio of tacos (base 30 p.) · Pop-shrimp & tempura (base 20 p.)","تاكو ثلاثي (أساس 30 حصة) · بوب شريمب وتمبورا (أساس 20 حصة)"),d:G("Mayonnaise pimentée à la sriracha, relevée de yuzu et de gingembre. La sauce signature des pièces croustillantes.","Sriracha-spiced mayonnaise lifted with yuzu and ginger. The signature sauce of the crispy pieces.","مايونيز حار بالسريراتشا، منكّه باليوزو والزنجبيل. الصلصة المميزة للقطع المقرمشة."),
+ items:[["Mayonnaise",600,"g"],["Sriracha (chiripacha)",300,"g"],["Citron",20,"g"],["Soja",10,"g"],["Sauce huître",10,"g"],["Yuzu",10,"g"],["Gingembre",10,"g"],["Ail",5,"g"]]},
+{n:"Mayonnaise ponzu",u:G("Trio de tacos (thon)","Trio of tacos (tuna)","تاكو ثلاثي (التونة)"),d:G("Deux ingrédients : mayonnaise + ponzu. Simple, fraîche, parfaite sur le thon.","Two ingredients: mayonnaise + ponzu. Simple, fresh, perfect on tuna.","مكونان فقط: مايونيز + بونزو. بسيطة وطازجة، مثالية مع التونة."),
+ items:[["Mayonnaise",600,"g"],["Ponzu",200,"g"]]},
+{n:"Sauce poke bowl",u:G("Poke Bowl","Poke bowl","بوكي بول"),d:G("Assaisonnement du poke : soja, citron, sésame. À verser au dressage, jamais avant : le citron cuirait le poisson.","Poke seasoning: soy, lemon, sesame. Pour at plating, never before: the lemon would cook the fish.","تتبيلة البوكي: صويا وحامض وسمسم. تُسكب عند التقديم، أبداً قبل ذلك: الحامض سيطهو السمك."),
+ items:[["Soja",0.1,"L"],["Citron",0.1,"L"],["Huile de sésame",0.02,"L"]]},
+{n:"Sauce kinilaw",u:G("Kinilaw de dorade (base 20 p.)","Sea bream kinilaw (base 20 p.)","كينيلاو الدوراد (أساس 20 حصة)"),d:G("Le kinilaw est le « ceviche philippin » : vinaigre et lait de coco remplacent le citron vert pur.","Kinilaw is the 'Philippine ceviche': vinegar and coconut milk replace straight lime juice.","الكينيلاو هو «سيفيتشي الفلبين»: الخل وحليب جوز الهند يعوّضان عصير الليمون الصافي."),
+ items:[["Lait de coco",0.4,"kg"],["Citronnelle",0.2,"kg"],["Citron",0.1,"kg"],["Vinaigre",0.1,"L"],["Sucre",0.02,"kg"],["Yuk man",0.02,"L"],["Sel",0.01,"kg"]]},
+{n:"Vinaigre de riz — assaisonnement du riz",u:G("Riz à sushi — Shari (par kilo de riz)","Sushi rice — Shari (per kilo of rice)","أرز السوشي — شاري (لكل كيلو أرز)"),d:G("Préparation du chef pour le vinaigre de riz assaisonné : 20 L de vinaigre, 14 kg de sucre (sanida) et 7 kg de sel. C'est ce mélange, ajouté dans le hangiri dès la sortie du cuiseur, qui transforme le riz cuit en shari.","Chef's preparation for the seasoned rice vinegar: 20 L of vinegar, 14 kg of sugar and 7 kg of salt. It is this mix, added in the hangiri as soon as the rice leaves the cooker, that turns cooked rice into shari.","تحضير الشيف لخل الأرز المتبّل: 20 لتر خل + 14 كغ سكر (سانيدة) + 7 كغ ملح. هذا الخليط، يُضاف في الهانغيري فور خروج الأرز من الطنجرة، هو الذي يحوّل الأرز المطهو إلى شاري."),
+ items:[["Vinaigre de riz",20,"L"],["Sucre — sanida",14,"kg"],["Sel",7,"kg"]],
+ note:G("Dosage d'emploi (Shari) : 330 g de ce vinaigre préparé pour chaque kilo de riz, et 1 L d'eau par kilo pour la cuisson — règle du chef.","Use (Shari): 330 g of this prepared vinegar for every kilo of rice, and 1 L of water per kilo for cooking — the chef's rule.","طريقة الاستعمال (الشاري): 330 غ من هذا الخل المحضّر لكل كيلو أرز، و1 لتر ماء لكل كيلو للطهي — قاعدة الشيف.")},
+{n:"Sauce chili jam",u:G("Burger au poulet croustillant","Crispy chicken burger","برغر الدجاج المقرمش"),d:G("Confiture de piment douce et brillante qui nappe le poulet frit du burger.","A sweet, glossy chili jam that coats the burger's fried chicken.","مربى فلفل حلو ولامع يطلي دجاج البرغر المقلي."),
+ items:[["Huile de sésame",10,"g"],["Pâte d'ail",15,"g"],["Pâte de gingembre",15,"g"],["Sauce sriracha",300,"g"],["Sauce soja",40,"g"],["Sucre blanc",50,"g"],["Vinaigre de riz",0.2,"L"],["Sauce teriyaki",60,"g"]]},
+{n:"Spicy mayo (burger)",u:G("Burger au poulet croustillant","Crispy chicken burger","برغر الدجاج المقرمش"),d:G("La mayonnaise épicée du burger, à la Kewpie japonaise et à la sriracha.","The burger's spicy mayonnaise, with Japanese Kewpie and sriracha.","المايونيز الحار الخاص بالبرغر، بكيوبي اليابانية والسريراتشا."),
+ items:[["Mayonnaise japonaise Kewpie",1,"kg"],["Sriracha",793,"g"],["Togarashi",30,"g"],["Sel",null,"PM"],["Poivre",null,"PM"]]},
+{n:"Sauce anticuchera & chimichurri",u:G("Nigiri Omakase (anticuchera) · Nigiri Pavillon (chimichurri)","Omakase nigiri (anticuchera) · Pavillon nigiri (chimichurri)","نيغيري أوماكاسي (أنتيكوتشيرا) · نيغيري بافيون (تشيميتشوري)"),d:G("Deux sauces de service citées par les fiches nigiri. L'anticuchera est la sauce pimentée péruvienne des grillades ; le chimichurri accompagne le bœuf, ici au caviar.","Two service sauces named on the nigiri sheets. Anticuchera is the Peruvian spiced grill sauce; chimichurri goes with the beef, here with caviar.","صلصتا تقديم مذكورتان في وصفات النيغيري. الأنتيكوتشيرا هي صلصة بيروفية حارة للشواء؛ والتشيميتشوري يرافق البقر، هنا مع الكافيار."),
+ items:[["Sauce anticuchera — quantité fiche nigiri omakase",0.1,"kg"],["Sauce chimichurri — quantité fiche nigiri pavillon",0.1,"kg"]],
+ note:G("Les fiches donnent les quantités d'emploi, pas la composition interne de ces deux sauces.","The sheets give usage quantities, not the internal composition of these two sauces.","الوصفات تعطي كميات الاستعمال، وليس التركيبة الداخلية لهاتين الصلصتين.")}
+];
+
+/* ===== MATÉRIEL ===== */
+var GEAR=[
+{n:G("Yanagiba","Yanagiba","ياناغيبا"),d:G("Le long couteau à sashimi, lame fine à un seul biseau. Il tranche le poisson cru en un seul geste tiré, sans écraser les fibres.","The long sashimi knife, thin single-bevel blade. It slices raw fish in one pulling stroke, without crushing the fibres.","سكين الساشيمي الطويل، نصل رقيق بحدّ واحد. يقطع السمك النيئ بحركة سحب واحدة دون سحق الألياف.")},
+{n:G("Deba","Deba","ديبا"),d:G("Couteau lourd et épais pour lever les filets et couper têtes et arêtes des poissons entiers.","A heavy, thick knife for filleting and cutting heads and bones of whole fish.","سكين ثقيل وسميك لتفصيص السمك وقطع الرؤوس والعظام.")},
+{n:G("Usuba","Usuba","أوسوبا"),d:G("Couteau à légumes à lame rectangulaire : coupes nettes, bâtonnets et décorations (concombre, carotte des tacos et du poke).","The rectangular vegetable knife: clean cuts, batons and garnishes (cucumber, carrot for tacos and poke).","سكين الخضار المستطيل: قطع نظيفة وأعواد وتزيين (الخيار والجزر للتاكو والبوكي).")},
+{n:G("Hangiri","Hangiri","هانغيري"),d:G("Le grand bac en bois où l'on assaisonne le riz chaud avec le vinaigre de sushi en le « coupant » à la spatule, sans l'écraser.","The large wooden tub where hot rice is seasoned with sushi vinegar, 'cutting' it with the spatula without mashing.","الوعاء الخشبي الكبير حيث يُتبَّل الأرز الساخن بخل السوشي مع «قطعه» بالملعقة دون هرسه.")},
+{n:G("Shamoji","Shamoji","شاموجي"),d:G("La spatule à riz (bois, bambou ou caoutchouc) pour mélanger le shari et façonner sans casser les grains.","The rice paddle (wood, bamboo or rubber) to fold the shari and shape it without breaking the grains.","ملعقة الأرز (خشب أو خيزران أو مطاط) لخلط الشاري وتشكيله دون كسر الحبوب.")},
+{n:G("Makisu","Makisu","ماكيسو"),d:G("La natte de bambou qui sert à rouler les maki et les rolls bien serrés et réguliers.","The bamboo mat used to roll maki and rolls tight and even.","حصيرة الخيزران التي تُستعمل للفّ الماكي والرولز بإحكام وانتظام.")},
+{n:G("Cuiseur à riz","Rice cooker","طنجرة الأرز"),d:G("Il cuit le riz à quantité d'eau égale (fiche Shari) de façon régulière, service après service.","It cooks rice with an equal volume of water (Shari sheet) evenly, service after service.","تطهو الأرز بنفس كمية الماء (وصفة الشاري) بانتظام، خدمة بعد خدمة.")},
+{n:G("Tamis","Sieve","الغربال"),d:G("Pour égoutter le riz lavé 5 à 6 fois et le laisser reposer 5 minutes avant cuisson.","To drain the rice washed 5 to 6 times and rest it 5 minutes before cooking.","لتصفية الأرز المغسول 5 إلى 6 مرات وتركه يرتاح 5 دقائق قبل الطهي.")},
+{n:G("Planche dédiée au cru","Raw-only board","لوح خاص بالنيئ"),d:G("Une planche réservée au poisson cru, jamais utilisée pour le cuit : c'est la base anti-contamination de la station.","A board reserved for raw fish, never used for cooked food: the station's anti-contamination basics.","لوح مخصص للسمك النيئ، لا يُستعمل أبداً للمطهو: أساس مكافحة التلوث في القسم.")},
+{n:G("Pinces de précision","Precision tweezers","ملقط دقيق"),d:G("Pour retirer les arêtes fines et dresser ikura, caviar et herbes sans abîmer les pièces.","To remove fine bones and plate ikura, caviar and herbs without damaging the pieces.","لإزالة العظام الدقيقة وتقديم الإيكورا والكافيار والأعشاب دون إتلاف القطع.")},
+{n:G("Friteuse","Deep fryer","المقلاة العميقة"),d:G("Tempura, pop-shrimp et poulet du burger (170 °C, 8 minutes) : une huile propre et une température stable donnent le croustillant.","Tempura, pop-shrimp and the burger chicken (170 °C, 8 minutes): clean oil and a stable temperature give the crunch.","التمبورا والبوب شريمب ودجاج البرغر (170 درجة، 8 دقائق): زيت نظيف وحرارة ثابتة يعطيان القرمشة.")},
+{n:G("Feuille de bambou & nori","Bamboo leaf & nori","ورقة الخيزران والنوري"),d:G("La feuille de bambou sert de support de dressage des nigiri ; le nori (algue séchée) enrobe maki, gunkan et temaki.","The bamboo leaf is the nigiri plating base; nori (dried seaweed) wraps maki, gunkan and temaki.","ورقة الخيزران قاعدة لتقديم النيغيري؛ والنوري (طحلب مجفف) يلفّ الماكي والغونكان والتيماكي.")}
+];
+
+/* ===== LA CUISINE ASIATIQUE ===== */
+var ASIA={
+title:G("La cuisine asiatique, avant les spécialités","Asian cuisine, before the specialities","المطبخ الآسيوي، قبل التخصصات"),
+sub:G("Cette app est un cours d'apprentissage : on commence par comprendre la cuisine — ses bases, ses ingrédients, son matériel — puis on passe aux fiches du Pavillon.","This app is a learning course: first understand the cuisine — its bases, ingredients and equipment — then move on to the Pavillon sheets.","هذا التطبيق درس تعليمي: نبدأ بفهم المطبخ — أساسياته ومكوناته ومعداته — ثم ننتقل إلى وصفات البافيون."),
+intro:[
+{n:G("Une cuisine de l'équilibre","A cuisine of balance","مطبخ التوازن"),d:G("La cuisine asiatique cherche l'équilibre des saveurs : salé (soja), acide (vinaigre de riz, yuzu, citron), sucré (sucre du shari, teriyaki), piquant (togarashi, aji amarillo) et umami (kombu, fumet, soja). Chaque fiche de l'app combine ces pôles.","Asian cuisine seeks balance of flavours: salty (soy), sour (rice vinegar, yuzu, lemon), sweet (shari sugar, teriyaki), heat (togarashi, aji amarillo) and umami (kombu, fumet, soy). Every sheet in this app combines these poles.","يسعى المطبخ الآسيوي إلى توازن النكهات: المالح (الصويا)، الحامض (خل الأرز، اليوزو، الحامض)، الحلو (سكر الشاري، الترياكي)، الحار (التوغاراشي، آخي أماريلو) والأومامي (الكومبو، المرق، الصويا). كل وصفة في التطبيق تجمع هذه الأقطاب.")},
+{n:G("Le riz au centre","Rice at the centre","الأرز في المركز"),d:G("Au Japon, le riz vinaigré (shari) n'est pas un accompagnement : c'est la moitié du sushi. Le poisson (neta) vient ensuite. Un bon shari se juge tiède, brillant, grains séparés mais qui tiennent ensemble.","In Japan, vinegared rice (shari) is not a side dish: it is half of the sushi. The fish (neta) comes second. Good shari is judged warm, glossy, grains separate yet holding together.","في اليابان، الأرز بالخل (الشاري) ليس مرافقاً: إنه نصف السوشي. السمك (النيتا) يأتي بعده. الشاري الجيد يكون دافئاً ولامعاً وحبوبه منفصلة لكن متماسكة.")},
+{n:G("Le cru, un produit vivant","Raw fish, a living product","النيئ، منتج حي"),d:G("Travailler le cru exige fraîcheur absolue, froid constant et gestes propres. C'est pour cela que l'app a une section Hygiène entière : sans elle, aucune technique ne compte.","Working raw demands absolute freshness, constant cold and clean gestures. That is why the app has a whole Hygiene section: without it, no technique matters.","العمل على النيئ يتطلب طزاجة مطلقة وبرودة دائمة وحركات نظيفة. لهذا خصص التطبيق قسماً كاملاً للنظافة: بدونها لا قيمة لأي تقنية.")}],
+basesT:G("Les bases à maîtriser d'abord","The bases to master first","الأساسيات التي يجب إتقانها أولاً"),
+bases:[
+{n:"Shari — le riz vinaigré",d:G("Riz rond cuit, assaisonné de vinaigre de riz, sucre et sel (avec kombu). Fiche complète : « Riz à sushi — Shari ».","Round rice, cooked and seasoned with rice vinegar, sugar and salt (with kombu). Full sheet: 'Sushi rice — Shari'.","أرز مستدير مطهو، متبّل بخل الأرز والسكر والملح (مع الكومبو). الوصفة الكاملة: «أرز السوشي — شاري».")},
+{n:"Neta — la garniture",d:G("Le produit posé sur le riz : poisson cru (saumon, thon, dorade), fruits de mer (gambas, poulpe) ou légumes (avocat, concombre).","The topping placed on the rice: raw fish (salmon, tuna, sea bream), seafood (prawns, octopus) or vegetables (avocado, cucumber).","ما يوضع فوق الأرز: سمك نيئ (سلمون، تونة، دوراد)، فواكه البحر (قمرون، أخطبوط) أو خضار (أفوكا، خيار).")},
+{n:"Nori — l'algue séchée",d:G("Feuille d'algue grillée qui enrobe les maki et tient les gunkan. Elle doit rester croustillante : on la pose à la dernière minute.","Sheet of toasted seaweed that wraps maki and holds gunkan. It must stay crisp: add it at the last minute.","ورقة طحلب محمّصة تلفّ الماكي وتمسك الغونكان. يجب أن تبقى مقرمشة: توضع في آخر لحظة.")},
+{n:"Les condiments",d:G("Sauce soja (pour tremper côté poisson), wasabi (piquant, entre riz et neta) et gingembre mariné (pour nettoyer le palais entre deux pièces).","Soy sauce (dip on the fish side), wasabi (heat, between rice and neta) and pickled ginger (to cleanse the palate between pieces).","صلصة الصويا (للغمس من جهة السمك)، الواسابي (الحار، بين الأرز والنيتا) والزنجبيل المخلل (لتنظيف الحنك بين القطع).")}],
+ingT:G("Les ingrédients qui reviennent partout","The ingredients that come back everywhere","المكونات التي تتكرر في كل مكان"),
+ing:[
+{n:"Yuzu",d:G("Agrume japonais très parfumé, entre citron et mandarine. Son jus acidule ponzu, aïolis et spicy mayo.","A fragrant Japanese citrus, between lemon and mandarin. Its juice sharpens ponzu, aiolis and spicy mayo.","حمضية يابانية عطرة جداً، بين الحامض واليوسفي. عصيرها ينكّه البونزو والأيولي والمايونيز الحار.")},
+{n:"Togarashi",d:G("Mélange d'épices japonais au piment. Dosé « PM » (pour mémoire = à l'appréciation du cuisinier) sur les fiches.","A Japanese chili spice blend. Dosed 'PM' (to taste, at the cook's judgement) on the sheets.","خلطة توابل يابانية بالفلفل الحار. تُقاس «PM» (حسب التقدير) في الوصفات.")},
+{n:"Aji amarillo",d:G("Piment jaune péruvien, fruité et moyennement fort. Il colore et parfume leche de tigre, limeña et acevichada.","A Peruvian yellow chili, fruity and medium-hot. It colours and flavours leche de tigre, limeña and acevichada.","فلفل أصفر بيروفي، فاكهي ومتوسط الحرارة. يلوّن وينكّه ليتشي دي تيغري والليمينيا والآسيفيتشادا.")},
+{n:"Kewpie",d:G("Mayonnaise japonaise, plus riche et plus douce que la mayonnaise classique : la base des sauces acevichada et spicy mayo.","Japanese mayonnaise, richer and milder than classic mayo: the base of acevichada and spicy mayo.","مايونيز ياباني، أغنى وألطف من الكلاسيكي: قاعدة الآسيفيتشادا والمايونيز الحار.")},
+{n:"Ikura & caviar",d:G("Œufs de saumon (ikura, grosses billes orange) et caviar : les finitions précieuses des nigiri et du tiradito.","Salmon roe (ikura, large orange pearls) and caviar: the precious finishes of nigiri and tiradito.","بيض السلمون (إيكورا، حبات برتقالية كبيرة) والكافيار: اللمسات الثمينة للنيغيري والتيراديتو.")},
+{n:"Kombu & fumet",d:G("Le kombu (algue) parfume le vinaigre de sushi ; le fumet de poisson donne le fond umami à la leche de tigre et à la truffe teriyaki.","Kombu (seaweed) flavours the sushi vinegar; fish fumet gives the umami base to leche de tigre and truffle teriyaki.","الكومبو (طحلب) ينكّه خل السوشي؛ ومرق السمك يعطي قاعدة الأومامي لليتشي دي تيغري وترياكي الكمأة.")},
+{n:"Wasabi & gingembre mariné",d:G("Le wasabi râpé apporte le piquant net ; le gingembre mariné (gari) rafraîchit entre les pièces. Deux condiments, jamais mélangés dans la soja en service soigné.","Grated wasabi brings clean heat; pickled ginger (gari) refreshes between pieces. Two condiments, never mixed into the soy in careful service.","الواسابي المبشور يعطي حرارة نظيفة؛ والزنجبيل المخلل (غاري) ينعش بين القطع. مرافقان لا يُخلطان في الصويا في الخدمة الراقية.")},
+{n:"Gambas, toro, wagyu",d:G("Les produits nobles des sélections : gambas 16/20 ou 40/50 (le calibre = nombre de pièces au kilo), toro (ventrèche grasse du thon), wagyu (bœuf marbré japonais).","The noble products of the selections: prawns 16/20 or 40/50 (the calibre = pieces per kilo), toro (fatty tuna belly), wagyu (marbled Japanese beef).","المنتجات النبيلة للاختيارات: القمرون 16/20 أو 40/50 (العيار = عدد القطع في الكيلو)، التورو (بطن التونة الدهني)، الواغيو (بقر ياباني مرقّط بالدهن).")}],
+nikkeiT:G("L'influence nikkei & péruvienne","The Nikkei & Peruvian influence","التأثير النيكي والبيروفي"),
+nikkeiSub:G("La moitié des fiches du Pavillon sont nikkei : des techniques japonaises travaillées avec des produits et des sauces du Pérou.","Half of the Pavillon sheets are Nikkei: Japanese techniques worked with Peruvian products and sauces.","نصف وصفات البافيون «نيكي»: تقنيات يابانية تُعمل بمنتجات وصلصات بيروفية."),
+nikkei:[
+{n:G("Nikkei, c'est quoi ?","What is Nikkei?","ما هو النيكي؟"),d:G("Les Japonais émigrés au Pérou ont mélangé leurs techniques (découpe du cru, riz, soja) aux produits locaux (citron vert, aji amarillo, coriandre). Résultat : ceviche précis comme un sushi, tiradito tranché comme un sashimi.","Japanese emigrants in Peru mixed their techniques (raw cutting, rice, soy) with local products (lime, aji amarillo, coriander). Result: ceviche as precise as sushi, tiradito sliced like sashimi.","مزج اليابانيون المهاجرون إلى بيرو تقنياتهم (تقطيع النيئ، الأرز، الصويا) مع المنتجات المحلية (الليمون، آخي أماريلو، الكزبرة). النتيجة: سيفيتشي بدقة السوشي، وتيراديتو مقطّع مثل الساشيمي.")},
+{n:G("Ceviche","Ceviche","سيفيتشي"),d:G("Poisson ou gambas « cuits » à cru dans la leche de tigre, servis avec patate douce et maïs chulpi. Le contraste acide / doux est la signature du plat.","Fish or prawns 'cooked' raw in leche de tigre, served with sweet potato and chulpi corn. The sour / sweet contrast is the dish's signature.","سمك أو قمرون «يُطهى» نيئاً في ليتشي دي تيغري، يُقدَّم مع البطاطس الحلوة وذرة التشولبي. تباين الحامض والحلو هو توقيع الطبق.")},
+{n:G("Tiradito","Tiradito","تيراديتو"),d:G("Le cousin du ceviche : poisson tranché fin comme un sashimi, nappé de sauce au moment du service (fruit de la passion, limeña) — on ne le laisse pas mariner.","The ceviche's cousin: fish sliced thin like sashimi, sauced at service time (passion fruit, limeña) — it is not left to marinate.","ابن عم السيفيتشي: سمك مقطّع رقيقاً مثل الساشيمي، تُسكب عليه الصلصة عند التقديم (فاكهة العاطفة، ليمينيا) — لا يُترك للنقع.")},
+{n:G("Leche de tigre & aji amarillo","Leche de tigre & aji amarillo","ليتشي دي تيغري وآخي أماريلو"),d:G("Le jus de marinade du ceviche, mixé avec céleri, gingembre, oignon et aji amarillo. Au Pérou on le boit même en shot : c'est le goût du plat, concentré.","The ceviche marinade juice, blended with celery, ginger, onion and aji amarillo. In Peru it is even drunk as a shot: the dish's flavour, concentrated.","عصير نقع السيفيتشي، مخلوطاً بالكرفس والزنجبيل والبصل وآخي أماريلو. في بيرو يُشرب حتى كجرعة: إنه طعم الطبق مركّزاً.")}],
+note:G("Ordre d'apprentissage conseillé : 1) cette page, 2) Hygiène & bases, 3) le Shari, 4) les sauces, 5) les fiches une par une.","Suggested learning order: 1) this page, 2) Hygiene & basics, 3) the Shari, 4) the sauces, 5) the sheets one by one.","ترتيب التعلم المقترح: 1) هذه الصفحة، 2) النظافة والأساسيات، 3) الشاري، 4) الصلصات، 5) الوصفات واحدة بواحدة.")
+};
+
+/* ===== HISTOIRE / TYPES / BASES / RÈGLES / LEXIQUE ===== */
+var TIMELINE=[
+{era:G("~ VIIIᵉ siècle","~ 8th century","~ القرن الثامن"),t:G("Les origines anciennes — Narezushi","Ancient origins — Narezushi","الأصول القديمة — ناريزوشي"),d:G("Les racines du sushi commencent avec le Narezushi, une méthode de conservation : le poisson salé est rangé entre des couches de riz, qui fermentent pendant des mois, voire des années. On ne mangeait alors que le poisson, le riz était jeté.","Sushi's roots begin with Narezushi, a preservation method: salted fish stored between layers of rice, fermented for months or even years. Only the fish was eaten; the rice was thrown away.","تبدأ جذور السوشي مع الناريزوشي، طريقة حفظ: سمك مملّح يُخزَّن بين طبقات الأرز ويتخمّر لأشهر بل لسنوات. كان يُؤكل السمك فقط ويُرمى الأرز.")},
+{era:G("XVᵉ – XVIIᵉ siècle","15th – 17th century","القرن 15 – 17"),t:G("Hayazushi — le début du sushi","Hayazushi — the beginning of sushi","هايازوشي — بداية السوشي"),d:G("De la période Muromachi au début d'Edo, on commence à manger le poisson avec le riz fermenté plus vite : cette fermentation rapide, le Hayazushi, est la forme ancienne du sushi moderne.","From the Muromachi period to early Edo, people began eating the fish with faster-fermented rice: this quicker fermentation, Hayazushi, is the early form of modern sushi.","من فترة موروماشي إلى بداية إيدو، بدأ الناس يأكلون السمك مع أرز مخمّر بسرعة أكبر: هذا التخمير السريع، الهايازوشي، هو الشكل القديم للسوشي الحديث.")},
+{era:G("Début XIXᵉ siècle","Early 19th century","بداية القرن 19"),t:G("Le sushi d'Edo — le Nigirizushi naît","Edo-style sushi — Nigirizushi is born","سوشي إيدو — ولادة النيغيريزوشي"),d:G("À Edo (aujourd'hui Tokyo), Hanaya Yohei crée le Nigirizushi : du riz façonné à la main, coiffé de poisson frais. Rapide, délicieux et abordable, il devient populaire auprès des habitants — c'est la fondation du sushi moderne, vendu comme cuisine de rue.","In Edo (today's Tokyo), Hanaya Yohei created Nigirizushi: hand-pressed rice topped with fresh fish. Fast, delicious and affordable, it became popular among townspeople — the foundation of modern sushi, sold as street food.","في إيدو (طوكيو اليوم)، ابتكر هانايا يوهي النيغيريزوشي: أرز مشكّل باليد يعلوه سمك طازج. سريع ولذيذ ورخيص، أصبح شائعاً بين السكان — وهو أساس السوشي الحديث، يُباع كأكل شارع.")},
+{era:G("Fin XIXᵉ – XXᵉ siècle","Late 19th – 20th century","أواخر القرن 19 – 20"),t:G("La culture du sushi s'étend","Sushi culture expands","انتشار ثقافة السوشي"),d:G("Le sushi se répand dans tout le Japon avec des styles régionaux et des garnitures variées. La réfrigération rend les ingrédients frais plus accessibles et élève le sushi au rang de cuisine raffinée et célébrée.","Sushi spread across Japan with regional styles and toppings. Refrigeration made fresh ingredients more accessible, elevating sushi into a refined and celebrated cuisine.","انتشر السوشي في كل اليابان بأنماط إقليمية وحشوات متنوعة. جعل التبريد المكونات الطازجة متاحة أكثر ورفع السوشي إلى مطبخ راقٍ ومحتفى به.")},
+{era:G("XXIᵉ siècle","21st century","القرن 21"),t:G("Le sushi aujourd'hui — une icône mondiale","Sushi today — a global icon","السوشي اليوم — أيقونة عالمية"),d:G("Aujourd'hui le sushi se déguste dans le monde entier, tout en continuant d'évoluer au Japon — tradition, saisonnalité et savoir-faire dans chaque bouchée. C'est là qu'il rencontre le Pérou (nikkei) et le Maroc, au Pavillon.","Today sushi is enjoyed around the world while continuing to evolve in Japan — blending tradition, seasonality and craftsmanship in every bite. That is where it meets Peru (Nikkei) and Morocco, at the Pavillon.","اليوم يُستمتع بالسوشي في كل العالم مع استمرار تطوره في اليابان — تقليد وموسمية وحرفية في كل لقمة. وهناك يلتقي ببيرو (نيكي) والمغرب، في البافيون.")}];
+var TYPES=[
+{n:"Nigiri",d:G("Petite boule de riz vinaigré façonnée à la main, surmontée d'une tranche de neta (souvent poisson cru). Le type le plus traditionnel. Ex. : saumon, thon, crevette, anguille.","A small hand-shaped mound of vinegared rice topped with a slice of neta (often raw fish). The most traditional type. E.g. salmon, tuna, shrimp, eel.","كرة صغيرة من الأرز بالخل مشكّلة باليد، تعلوها شريحة نيتا (غالباً سمك نيئ). النوع الأكثر تقليدية. مثل: سلمون، تونة، قمرون، ثعبان البحر.")},
+{n:"Hosomaki",d:G("Petit rouleau, algue à l'extérieur, un seul ingrédient. Ex. : avocat, crabe, anguille, saumon, concombre, crevette, thon.","A small roll, seaweed outside, a single ingredient. E.g. avocado, crab, eel, salmon, cucumber, shrimp, tuna.","لفة صغيرة، الطحلب في الخارج، مكوّن واحد فقط. مثل: أفوكا، سرطان البحر، ثعبان البحر، سلمون، خيار، قمرون، تونة.")},
+{n:"Futomaki",d:G("Gros rouleau traditionnel, algue à l'extérieur, plusieurs garnitures associées (poissons et légumes). Garnitures vues : morue (cod roe), calamar, tobiko.","A large traditional roll, seaweed outside, several combined fillings (fish and vegetables). Seen fillings: cod roe, squid, tobiko.","لفة كبيرة تقليدية، الطحلب في الخارج، حشوات متعددة مجمّعة (سمك وخضار). حشوات مذكورة: بيض سمك القد، الحبار، التوبيكو.")},
+{n:"Uramaki",d:G("Rouleau inversé : riz à l'extérieur, algue à l'intérieur. Très populaire à l'international. Ex. : California roll, rainbow roll, dragon roll, Philadelphia, Boston roll, spicy tuna roll.","Inside-out roll: rice outside, seaweed inside. Very popular internationally. E.g. California roll, rainbow roll, dragon roll, Philadelphia, Boston roll, spicy tuna roll.","لفة مقلوبة: الأرز في الخارج والطحلب في الداخل. شائعة جداً عالمياً. مثل: كاليفورنيا رول، راينبو رول، دراغون رول، فيلادلفيا، بوسطن رول، سبايسي تونة رول.")},
+{n:"Temaki",d:G("Cône d'algue roulé à la main, garni de riz et de poisson, qui se mange directement avec les doigts. Ex. : anguille, crabe mou (soft shell crab), tamago, œufs de saumon.","A hand-rolled seaweed cone filled with rice and fish, eaten directly with the fingers. E.g. eel, soft shell crab, tamago, salmon roe.","مخروط طحلب ملفوف باليد، محشو بالأرز والسمك، يُؤكل مباشرة بالأصابع. مثل: ثعبان البحر، سرطان البحر الطري، تاماغو، بيض السلمون.")},
+{n:"Gunkan",d:G("« Bateau » de nori rempli de riz et coiffé d'une garniture molle ou en œufs. Ex. : crevette, saumon, oursin (uni), algue, tobiko.","A nori 'boat' filled with rice and topped with a soft or roe topping. E.g. shrimp, salmon, sea urchin (uni), seaweed, tobiko.","«قارب» من النوري مملوء بالأرز يعلوه حشو طري أو بيض سمك. مثل: قمرون، سلمون، قنفذ البحر (أوني)، طحلب، توبيكو.")},
+{n:"Sashimi",d:G("Chair de poisson pure, sans riz, présentée avec soin pour apprécier la saveur authentique et la qualité du poisson. Ce n'est donc pas du sushi.","Pure fish flesh, without rice, carefully presented to appreciate the authentic flavour and quality of the fish. It is therefore not sushi.","لحم سمك صافي، بدون أرز، يُقدَّم بعناية للاستمتاع بالنكهة الأصلية وجودة السمك. إذن ليس سوشي.")},
+{n:"Rolls des sélections",d:G("Les rolls composés du Pavillon et de l'Omakase : gambas, toro, chair d'araignée, tartare de bœuf… voir les fiches Rolls Pavillon et Rolls Omakase.","The composed rolls of Pavillon and Omakase: prawns, toro, spider crab, beef tartare… see the Pavillon Rolls and Omakase Rolls sheets.","الرولز المركّبة للبافيون والأوماكاسي: قمرون، تورو، لحم سرطان البحر، ترتار بقر… انظر وصفات رولز بافيون ورولز أوماكاسي.")}];
+var BASES2=[
+{n:"Shari",d:G("Le riz vinaigré : l'élément central du sushi. Riz à grain rond assaisonné de vinaigre de riz, de sucre et de sel.","Vinegared rice: the central element of sushi. Round-grain rice seasoned with rice vinegar, sugar and salt.","الأرز بالخل: العنصر المركزي في السوشي. أرز ذو حبة مستديرة متبّل بخل الأرز والسكر والملح.")},
+{n:"Neta",d:G("La garniture : généralement du poisson cru (saumon, thon), des fruits de mer (crevettes, poulpe) ou des légumes (avocat, concombre).","The topping: usually raw fish (salmon, tuna), seafood (prawns, octopus) or vegetables (avocado, cucumber).","الحشوة: غالباً سمك نيئ (سلمون، تونة)، فواكه البحر (قمرون، أخطبوط) أو خضار (أفوكا، خيار).")},
+{n:"Nori",d:G("La feuille d'algue séchée utilisée pour envelopper et maintenir le tout, comme dans les maki.","The dried seaweed sheet used to wrap and hold everything together, as in maki.","ورقة الطحلب المجففة المستعملة للفّ وحمل الكل، كما في الماكي.")},
+{n:G("Condiments","Condiments","المرافقات"),d:G("1) Sauce soja — 2) Wasabi — 3) Gingembre mariné. Le trio servi avec chaque assiette.","1) Soy sauce — 2) Wasabi — 3) Pickled ginger. The trio served with every plate.","1) صلصة الصويا — 2) الواسابي — 3) الزنجبيل المخلل. الثلاثي الذي يُقدَّم مع كل طبق.")}];
+var RULES=[
+{n:G("Mains propres, toujours","Clean hands, always","أيدٍ نظيفة دائماً"),d:G("Lavage des mains avant le service, après chaque produit différent et après toute pause. Le cru se travaille avec des mains propres ou des gants changés souvent.","Wash hands before service, after each different product and after every break. Raw food is worked with clean hands or frequently changed gloves.","غسل اليدين قبل الخدمة، وبعد كل منتج مختلف وبعد كل استراحة. النيئ يُعمل بأيدٍ نظيفة أو قفازات تُبدَّل كثيراً.")},
+{n:G("Chaîne du froid","Cold chain","سلسلة التبريد"),d:G("Poisson cru conservé entre 0 et 4 °C, sorti au dernier moment et jamais laissé à température ambiante. Le riz assaisonné se garde couvert d'un linge humide, jamais au réfrigérateur (il durcit).","Raw fish kept between 0 and 4 °C, taken out at the last moment and never left at room temperature. Seasoned rice is kept covered with a damp cloth, never in the fridge (it hardens).","يُحفظ السمك النيئ بين 0 و4 درجات، يُخرج في آخر لحظة ولا يُترك أبداً في حرارة الغرفة. الأرز المتبّل يُحفظ مغطى بقماش رطب، أبداً في الثلاجة (يتصلب).")},
+{n:G("Séparer cru et cuit","Separate raw and cooked","افصل النيئ عن المطهو"),d:G("Planches, couteaux et pinces distincts pour le cru et le cuit ; jamais de retour d'un produit entamé vers le stock propre.","Separate boards, knives and tweezers for raw and cooked; never return a started product to the clean stock.","ألواح وسكاكين وملاقط منفصلة للنيئ والمطهو؛ لا تُعد أبداً منتجاً بدأته إلى المخزون النظيف.")},
+{n:G("Couteau propre et affûté","Clean, sharp knife","سكين نظيف وحاد"),d:G("Un couteau bien affûté tranche net et écrase moins le poisson ; on l'essuie entre chaque produit pour ne pas mélanger les goûts.","A well-sharpened knife cuts cleanly and crushes the fish less; wipe it between each product so flavours don't mix.","سكين حاد جيداً يقطع بنظافة ويسحق السمك أقل؛ يُمسح بين كل منتج حتى لا تختلط النكهات.")},
+{n:G("Marinades courtes et froides","Short, cold marinades","نقع قصير وبارد"),d:G("Le ceviche marine dans la leche de tigre bien froide et se sert vite ; le tiradito n'attend pas : sauce au moment du service.","Ceviche marinates in well-chilled leche de tigre and is served fast; tiradito does not wait: sauce at service time.","السيفيتشي يُنقع في ليتشي دي تيغري باردة جيداً ويُقدَّم بسرعة؛ التيراديتو لا ينتظر: الصلصة عند التقديم.")},
+{n:G("Goûter avec une cuillère propre","Taste with a clean spoon","تذوّق بملعقة نظيفة"),d:G("Chaque dégustation d'assaisonnement se fait avec une cuillère propre — jamais avec les doigts, jamais deux fois la même cuillère.","Every seasoning check is done with a clean spoon — never with fingers, never the same spoon twice.","كل تذوّق للتتبيلة يكون بملعقة نظيفة — أبداً بالأصابع، وأبداً بنفس الملعقة مرتين.")}];
+var GLOSS=[
+{n:"PM",d:G("« Pour mémoire » : pas de quantité fixe sur la fiche — on dose à l'œil et au goût, petit à petit (sel, poivre, togarashi).","'To taste': no fixed quantity on the sheet — dose by eye and by taste, little by little (salt, pepper, togarashi).","«حسب التقدير»: لا كمية ثابتة في الوصفة — نقيس بالعين والذوق، شيئاً فشيئاً (الملح، الفلفل، التوغاراشي).")},
+{n:"Net",d:G("Poids net : le poids du produit prêt à l'emploi, après parage (peau, arêtes, coquille retirés). Ex. « gambas 16/20 net ».","Net weight: the weight of the ready-to-use product, after trimming (skin, bones, shell removed). E.g. 'prawns 16/20 net'.","الوزن الصافي: وزن المنتج الجاهز للاستعمال، بعد التنظيف (إزالة الجلد والعظام والقشرة). مثل «قمرون 16/20 صافي».")},
+{n:"16/20 · 40/50",d:G("Le calibre des gambas : nombre de pièces par kilo. 16/20 = grosses gambas ; 40/50 = plus petites.","The prawn calibre: number of pieces per kilo. 16/20 = large prawns; 40/50 = smaller ones.","عيار القمرون: عدد القطع في الكيلو. 16/20 = قمرون كبير؛ 40/50 = أصغر.")},
+{n:"Fumet",d:G("Bouillon court de poisson (arêtes, légumes) qui sert de base liquide parfumée : leche de tigre, truffe teriyaki.","A short fish stock (bones, vegetables) used as a flavoured liquid base: leche de tigre, truffle teriyaki.","مرق سمك قصير (عظام وخضار) يُستعمل قاعدة سائلة منكّهة: ليتشي دي تيغري، ترياكي الكمأة.")},
+{n:"Réduire",d:G("Faire évaporer un liquide à la cuisson pour concentrer le goût et épaissir. Ex. le jus limeña : 800 g réduits à 400 g.","To evaporate a liquid by cooking to concentrate flavour and thicken. E.g. the limeña juice: 800 g reduced to 400 g.","الاختزال: تبخير سائل بالطهي لتركيز النكهة والتكثيف. مثل عصير الليمينيا: 800 غ تُختزل إلى 400 غ.")},
+{n:"Émulsion",d:G("Mélange stable d'huile et d'un liquide, obtenu en fouettant (aïoli, mayonnaise) : on verse l'huile en filet, doucement.","A stable mix of oil and a liquid, obtained by whisking (aioli, mayonnaise): pour the oil in a thin stream, slowly.","المستحلب: خليط ثابت من الزيت وسائل، يُحصل عليه بالخفق (الأيولي، المايونيز): يُسكب الزيت خيطاً رقيقاً وببطء.")},
+{n:"Toro / Omakase / Pavillon",d:G("Toro = ventrèche grasse et fondante du thon. Omakase = « je laisse au chef » : la sélection du chef. Pavillon = le restaurant de la piscine du Park Hyatt Marrakech, d'où viennent ces fiches.","Toro = the fatty, melting belly of the tuna. Omakase = 'I leave it to the chef': the chef's selection. Pavillon = the Park Hyatt Marrakech pool restaurant, where these sheets come from.","التورو = بطن التونة الدهني الذائب. أوماكاسي = «أترك الأمر للشيف»: اختيار الشيف. البافيون = مطعم المسبح في بارك حياة مراكش، مصدر هذه الوصفات.")},
+{n:"Unagi / Ikura / Tobiko",d:G("Unagi = anguille grillée laquée teriyaki. Ikura = œufs de saumon. Tobiko = œufs de poisson volant, petits et croquants, utilisés en garniture de gunkan et futomaki.","Unagi = grilled eel glazed with teriyaki. Ikura = salmon roe. Tobiko = flying fish roe, small and crunchy, used to garnish gunkan and futomaki.","أوناغي = ثعبان بحر مشوي مطلي بالترياكي. إيكورا = بيض السلمون. توبيكو = بيض السمك الطائر، صغير ومقرمش، يُستعمل لتزيين الغونكان والفوتوماكي.")},
+{n:"Boutargue",d:G("Œufs de poisson salés et séchés (poutargue), râpés ou tranchés finement : un condiment iodé puissant, dosé très petit (0,003 kg sur la fiche rolls omakase).","Salted, dried fish roe (bottarga), grated or thinly sliced: a powerful iodised condiment, dosed very small (0.003 kg on the omakase rolls sheet).","بيض سمك مملّح ومجفف (بوتارغ)، مبشور أو مقطّع رقيقاً: منكّه بحري قوي، يُقاس بكميات صغيرة جداً (0.003 كغ في وصفة رولز أوماكاسي).")},
+{n:"Chulpi",d:G("Maïs péruvien à gros grains, toasté : le croquant traditionnel servi avec les ceviches, avec la patate douce.","Peruvian large-kernel corn, toasted: the traditional crunch served with ceviches, alongside sweet potato.","ذرة بيروفية كبيرة الحبة، محمّصة: القرمشة التقليدية التي تُقدَّم مع السيفيتشي، بجانب البطاطس الحلوة.")}];
+</script>
+<script>
+var lang="fr", curCat="all", curRecipe=null, curPortions=null;
+function t(o){ return (o&&typeof o==="object") ? (o[lang]||o.fr) : o; }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function fmt(n){ if(n===null||n===undefined) return "PM"; var v=Math.round(n*10000)/10000; return (""+v).replace(".", lang==="ar" ? "." : ","); }
+
+function setLang(l){
+  lang=l;
+  document.documentElement.lang=l;
+  document.documentElement.dir = (l==="ar") ? "rtl" : "ltr";
+  document.querySelectorAll(".langs button").forEach(function(b){ b.classList.toggle("on", b.dataset.lang===l); });
+  document.querySelectorAll("[data-i]").forEach(function(el){ var k=el.dataset.i; if(I[l][k]) el.textContent=I[l][k]; });
+  document.querySelectorAll("[data-i-ph]").forEach(function(el){ var k=el.dataset.iPh; if(I[l][k]) el.placeholder=I[l][k]; });
+  document.getElementById("nav-asia").textContent = t(ASIA.title).split("—")[0].length>24 ? (l==="ar"?"المطبخ الآسيوي":(l==="en"?"Asian cuisine":"La cuisine asiatique")) : t(ASIA.title);
+  document.getElementById("nav-asia").textContent = (l==="ar"?"المطبخ الآسيوي":(l==="en"?"Asian cuisine":"La cuisine asiatique"));
+  renderAll();
+}
+function show(view){
+  document.querySelectorAll("section.view").forEach(function(s){ s.classList.toggle("on", s.id==="v-"+view); });
+  document.querySelectorAll("#mainnav button").forEach(function(b){ b.classList.toggle("on", b.dataset.view===view); });
+  if(view!=="recipes"){ var d=document.getElementById("recipe-detail"); if(d) d.innerHTML=""; }
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function renderAll(){
+  /* Asia */
+  document.getElementById("asia-title").textContent=t(ASIA.title);
+  document.getElementById("asia-sub").textContent=t(ASIA.sub);
+  document.getElementById("asia-bases-t").textContent=t(ASIA.basesT);
+  document.getElementById("asia-ing-t").textContent=t(ASIA.ingT);
+  document.getElementById("asia-nikkei-t").textContent=t(ASIA.nikkeiT);
+  document.getElementById("asia-nikkei-sub").textContent=t(ASIA.nikkeiSub);
+  document.getElementById("asia-note").textContent=t(ASIA.note);
+  document.getElementById("asia-intro").innerHTML=ASIA.intro.map(function(x){return '<div class="card"><div class="cb"><h3>'+esc(t(x.n))+'</h3><p>'+esc(t(x.d))+'</p></div></div>';}).join("");
+  document.getElementById("asia-bases").innerHTML=ASIA.bases.map(function(x){return '<div class="card"><div class="cb"><span class="tag">'+esc(I[lang].base)+'</span><h3>'+esc(x.n)+'</h3><p>'+esc(t(x.d))+'</p></div></div>';}).join("");
+  document.getElementById("asia-ing").innerHTML=ASIA.ing.map(function(x){return '<div class="card"><div class="cb"><h3>'+esc(x.n)+'</h3><p>'+esc(t(x.d))+'</p></div></div>';}).join("");
+  document.getElementById("asia-nikkei").innerHTML=ASIA.nikkei.map(function(x){return '<div class="card"><div class="cb"><h3>'+esc(t(x.n))+'</h3><p>'+esc(t(x.d))+'</p></div></div>';}).join("");
+  /* Home cats */
+  document.getElementById("home-cats").innerHTML=Object.keys(CATS).map(function(k){
+    var img = k==="nigiri"?"__IMG1__":k==="rolls"?"__IMG3__":k==="ceviche"?"__IMG4__":k==="chaud"?"__IMG5__":"__IMG2__";
+    var count=R.filter(function(r){return r.cat===k;}).length;
+    var lbl = lang==="fr" ? (count>1?"fiches techniques":"fiche technique") : lang==="en" ? (count>1?"recipe sheets":"recipe sheet") : (count>1?"وصفات تقنية":"وصفة تقنية");
+    return '<button class="card" data-catgo="'+k+'"><img src="'+img+'" alt=""/><div class="cb"><h3>'+esc(t(CATS[k]))+'</h3><p>'+count+' '+lbl+'</p></div></button>';
+  }).join("");
+  document.querySelectorAll("[data-catgo]").forEach(function(b){ b.addEventListener("click",function(){ curCat=b.dataset.catgo; curRecipe=null; renderAll(); show("recipes"); }); });
+  /* Filters */
+  var fc='<button data-cat="all" class="'+(curCat==="all"?"on":"")+'">'+esc(I[lang].cat_all)+'</button>';
+  Object.keys(CATS).forEach(function(k){ fc+='<button data-cat="'+k+'" class="'+(curCat===k?"on":"")+'">'+esc(t(CATS[k]))+'</button>'; });
+  document.getElementById("catfilters").innerHTML=fc;
+  document.querySelectorAll("#catfilters button").forEach(function(b){ b.addEventListener("click",function(){ curCat=b.dataset.cat; renderAll(); }); });
+  renderRecipes();
+  /* Sauces */
+  document.getElementById("sauce-list").innerHTML=SAUCES.map(function(s,i){
+    var rows=s.items.map(function(it){ return '<tr><td>'+esc(it[0])+'</td><td class="q">'+fmt(it[1])+'</td><td class="u">'+esc(it[2])+'</td></tr>'; }).join("");
+    var note=s.note?'<div class="note">'+esc(t(s.note))+'</div>':"";
+    return '<details class="sauce"><summary><span>'+esc(s.n)+'</span><span class="used">'+esc(I[lang].used_in)+' '+esc(t(s.u))+'</span></summary><div class="sb"><p style="color:var(--ink2);margin:4px 0 8px">'+esc(t(s.d))+'</p><table class="ing"><tr><th>'+esc(I[lang].ing)+'</th><th>'+esc(I[lang].qty)+'</th><th>'+esc(I[lang].unit)+'</th></tr>'+rows+'</table>'+note+'</div></details>';
+  }).join("");
+  /* Gear */
+  document.getElementById("gear-grid").innerHTML=GEAR.map(function(g){ return '<div class="card"><div class="cb"><h3>'+esc(t(g.n))+'</h3><p>'+esc(t(g.d))+'</p></div></div>'; }).join("");
+  /* Story */
+  document.getElementById("timeline").innerHTML=TIMELINE.map(function(e){ return '<div class="ev"><span class="era">'+esc(t(e.era))+'</span><h3>'+esc(t(e.t))+'</h3><p>'+esc(t(e.d))+'</p></div>'; }).join("");
+  document.getElementById("types-grid").innerHTML=TYPES.map(function(x){ return '<div class="card"><div class="cb"><h3>'+esc(x.n)+'</h3><p>'+esc(t(x.d))+'</p></div></div>'; }).join("");
+  /* Hygiene */
+  document.getElementById("bases-grid").innerHTML=BASES2.map(function(x){ return '<div class="card"><div class="cb"><h3>'+esc(t(x.n))+'</h3><p>'+esc(t(x.d))+'</p></div></div>'; }).join("");
+  document.getElementById("rules-grid").innerHTML=RULES.map(function(x){ return '<div class="card"><div class="cb"><h3>'+esc(t(x.n))+'</h3><p>'+esc(t(x.d))+'</p></div></div>'; }).join("");
+  document.getElementById("gloss-t").textContent = lang==="ar" ? "معجم المبتدئ" : (lang==="en" ? "Beginner's glossary" : "Lexique du débutant");
+  document.getElementById("gloss-sub").textContent = lang==="ar" ? "كل كلمة تقنية في الوصفات، مشروحة ببساطة." : (lang==="en" ? "Every technical word on the sheets, explained simply." : "Chaque mot technique des fiches, expliqué simplement.");
+  document.getElementById("gloss-grid").innerHTML=GLOSS.map(function(x){ return '<div class="card"><div class="cb"><h3>'+esc(x.n)+'</h3><p>'+esc(t(x.d))+'</p></div></div>'; }).join("");
+  if(curRecipe) openRecipe(curRecipe, true);
+}
+function renderRecipes(){
+  var q=(document.getElementById("search").value||"").toLowerCase();
+  var list=R.filter(function(r){
+    if(curCat!=="all"&&r.cat!==curCat) return false;
+    if(!q) return true;
+    var hay=(r.title+" "+r.groups.map(function(g){return g.items.map(function(i){return i[0];}).join(" ");}).join(" ")).toLowerCase();
+    return hay.indexOf(q)>-1;
+  });
+  var grid=document.getElementById("recipe-grid");
+  grid.innerHTML = list.length ? list.map(function(r){
+    return '<button class="card" data-rid="'+r.id+'"><img src="'+r.img+'" alt=""/><div class="cb"><span class="tag">'+esc(t(CATS[r.cat]))+'</span><h3>'+esc(r.title)+'</h3><p>'+esc(t(r.sub))+'</p><p style="margin-top:6px;font-weight:700;color:var(--accent)">'+(r.baseLabel?esc(t(r.baseLabel)):esc(I[lang].base)+' '+r.base+' '+esc(I[lang].portions))+'</p></div></button>';
+  }).join("") : '<p style="color:var(--ink2)">'+esc(I[lang].nores)+'</p>';
+  grid.querySelectorAll("[data-rid]").forEach(function(b){ b.addEventListener("click",function(){ openRecipe(b.dataset.rid); }); });
+}
+function ingTable(items, factor){
+  var rows=items.map(function(it){
+    var q = (it[1]===null||it[1]===undefined) ? (it[2]==="—" ? "—" : "PM") : fmt(it[1]*factor);
+    return '<tr><td>'+esc(it[0])+'</td><td class="q">'+q+'</td><td class="u">'+esc(it[2]||"")+'</td></tr>';
+  }).join("");
+  return '<table class="ing"><tr><th>'+esc(I[lang].ing)+'</th><th>'+esc(I[lang].qty)+'</th><th>'+esc(I[lang].unit)+'</th></tr>'+rows+'</table>';
+}
+function openRecipe(id, keep){
+  var r=null; R.forEach(function(x){ if(x.id===id) r=x; }); if(!r) return;
+  curRecipe=id; if(!keep||!curPortions) curPortions=r.base;
+  var opts=(r.scaleOpts||[1,2,5,10,20,30]).filter(function(n){ return n!==r.base; });
+  var unitWord = r.scaleUnit ? t(r.scaleUnit) : I[lang].portions;
+  var scaler='<div class="scaler"><b>'+esc(I[lang].for_portions)+'</b><button data-p="'+r.base+'" class="'+(curPortions===r.base?"on":"")+'">'+r.base+'</button>'+opts.map(function(n){ return '<button data-p="'+n+'" class="'+(curPortions===n?"on":"")+'">'+n+'</button>'; }).join("")+'<span style="color:var(--ink2);font-size:.85rem">'+esc(unitWord)+'</span></div>';
+  var groups=r.groups.map(function(g){ return '<div class="gtitle">'+esc(t(g.t))+'</div>'+ingTable(g.items, curPortions/(g.base||r.base)); }).join("");
+  var steps=r.steps?'<div class="gtitle">'+esc(I[lang].progression)+'</div><div class="steps"><p>'+esc(t(r.steps))+'</p></div>':"";
+  var bl=r.baseLabel?'<p style="color:var(--ink2)">'+esc(t(r.baseLabel))+'</p>':"";
+  document.getElementById("recipe-detail").innerHTML='<button class="back" id="backbtn">'+esc(I[lang].back)+'</button><div class="detail"><img class="dh" src="'+r.img+'" alt=""/><div class="db"><span class="tag">'+esc(t(CATS[r.cat]))+'</span><h2 style="font-size:2rem;margin:4px 0">'+esc(r.title)+'</h2><p style="color:var(--ink2);margin:0">'+esc(t(r.sub))+'</p>'+bl+scaler+groups+steps+'</div></div>';
+  document.getElementById("backbtn").addEventListener("click",function(){ curRecipe=null; document.getElementById("recipe-detail").innerHTML=""; window.scrollTo({top:0,behavior:"smooth"}); });
+  document.querySelectorAll(".scaler button").forEach(function(b){ b.addEventListener("click",function(){ curPortions=parseInt(b.dataset.p,10); openRecipe(id,true); }); });
+  if(!keep) document.getElementById("recipe-detail").scrollIntoView({behavior:"smooth"});
+}
+document.querySelectorAll("#mainnav button").forEach(function(b){ b.addEventListener("click",function(){ show(b.dataset.view); }); });
+document.querySelectorAll(".langs button").forEach(function(b){ b.addEventListener("click",function(){ setLang(b.dataset.lang); }); });
+document.querySelectorAll("[data-goto]").forEach(function(b){ b.addEventListener("click",function(){ show(b.dataset.goto); }); });
+document.getElementById("search").addEventListener("input", renderRecipes);
+setLang("fr");
+/* Installation de l'app (icône = logo de l'utilisateur) : le bouton affiche les étapes */
+window.addEventListener("appinstalled",function(){ var n=document.getElementById("installedNote"); if(n) n.hidden=false; });
+var installBtn=document.getElementById("installBtn");
+if(installBtn){ installBtn.addEventListener("click",function(){
+  var s=document.getElementById("install-steps"); if(s){ s.scrollIntoView({behavior:"smooth",block:"center"}); s.classList.add("flash"); setTimeout(function(){ s.classList.remove("flash"); },1800); }
+}); }
+</script>
+</body>
+</html>
