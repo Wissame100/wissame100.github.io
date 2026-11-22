@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام الحضور الذكي — Park Hyatt Marrakech</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: sans-serif; background: #101c33; color: #f2f2f2; padding: 14px; padding-bottom: 70px; }
+  h1 { font-size: 20px; text-align: center; color: #e8c87a; margin-bottom: 2px; }
+  .sub { text-align: center; color: #9db2d0; font-size: 13px; margin-bottom: 6px; }
+  #syncBar { text-align: center; font-size: 12px; color: #9db2d0; margin-bottom: 10px; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+  .tabs button, .subtabs button { flex: 1; padding: 11px 4px; border: none; border-radius: 10px; background: #22345a; color: #cfdaec; font-size: 14px; font-weight: bold; cursor: pointer; }
+  .tabs button.on, .subtabs button.on { background: #c5a45c; color: #101c33; }
+  .subtabs { display: flex; gap: 5px; margin-bottom: 12px; }
+  .subtabs button { font-size: 13px; padding: 9px 2px; }
+  .card { background: #1a2a4a; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+  .card h2 { font-size: 16px; color: #e8c87a; margin-bottom: 10px; }
+  label { display: block; font-size: 13px; color: #b9c7de; margin: 8px 0 4px; }
+  select, input[type=text], input[type=date], input[type=month], input[type=number], input[type=password], input[type=url], textarea {
+    width: 100%; padding: 11px; border-radius: 9px; border: 1px solid #35507f; background: #101c33; color: #fff; font-size: 15px; font-family: inherit; }
+  textarea { min-height: 110px; direction: ltr; font-size: 12px; }
+  .shifts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .shifts button { padding: 12px 4px; border-radius: 10px; border: 2px solid #35507f; background: #101c33; color: #fff; font-size: 15px; cursor: pointer; }
+  .shifts button.on { border-color: #c5a45c; background: #2a3f6e; }
+  .big { width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 12px; }
+  .in { background: #2ea043; color: #fff; }
+  .out { background: #d29922; color: #101c33; }
+  .plain { background: #35507f; color: #fff; padding: 11px; font-size: 15px; }
+  .danger { background: #8e2f2f; color: #fff; padding: 11px; font-size: 15px; }
+  .msg { border-radius: 10px; padding: 12px; margin-top: 10px; font-size: 14px; display: none; white-space: pre-line; }
+  .msg.ok { background: #14532d; display: block; }
+  .msg.err { background: #5f1d1d; display: block; }
+  .msg.info { background: #274268; display: block; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #2c4470; font-size: 14px; gap: 8px; }
+  .row:last-child { border-bottom: none; }
+  .pt { font-weight: bold; padding: 2px 9px; border-radius: 20px; font-size: 12px; white-space: nowrap; }
+  .g { background: #2ea043; color: #fff; } .r { background: #c93a3a; color: #fff; } .b { background: #000; color: #fff; border: 1px solid #666; }
+  .pend { background: #d29922; color: #101c33; } .appr { background: #2ea043; color: #fff; } .rej { background: #666; color: #fff; }
+  .mini { padding: 6px 12px; border: none; border-radius: 8px; font-size: 13px; cursor: pointer; color: #fff; background: #35507f; }
+  .mini.in { background: #2ea043; } .mini.danger { background: #8e2f2f; }
+  .bar { height: 12px; background: #101c33; border-radius: 6px; overflow: hidden; margin: 8px 0; }
+  .bar i { display: block; height: 100%; background: #2ea043; }
+  .count { font-size: 26px; text-align: center; font-weight: bold; color: #e8c87a; direction: ltr; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { padding: 7px 3px; border-bottom: 1px solid #2c4470; text-align: center; }
+  th { color: #e8c87a; }
+  .mut { color: #9db2d0; font-size: 12px; }
+  .hidden { display: none; }
+  .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; text-align: center; }
+  .stats div { background: #101c33; border-radius: 10px; padding: 10px 4px; font-size: 12px; color: #9db2d0; }
+  .stats b { display: block; font-size: 22px; color: #fff; }
+  #toast { position: fixed; bottom: 16px; left: 14px; right: 14px; background: #0b1426; border: 1px solid #c5a45c; color: #fff; padding: 12px; border-radius: 10px; text-align: center; display: none; z-index: 9; }
+</style>
+</head>
+<body>
+<h1>نظام الحضور الذكي</h1>
+<div class="sub">Park Hyatt Marrakech — الحضور بالموقع GPS · الخدمة 9 سوايع من الـCheck In</div>
+<div id="syncBar"></div>
+
+<div class="tabs">
+  <button id="tab-att" class="on" onclick="showTab('att')">✅ الحضور</button>
+  <button id="tab-leave" onclick="showTab('leave')">📄 إجازة</button>
+  <button id="tab-mgr" onclick="showTab('mgr')">🔐 المدير</button>
+</div>
+
+<!-- ATTENDANCE -->
+<div id="view-att">
+  <div class="card" id="activeCard" style="display:none">
+    <h2>🟢 راك خدام دابا</h2>
+    <div id="activeInfo" style="font-size:14px"></div>
+    <div class="count" id="countdown">--:--:--</div>
+    <div class="mut" style="text-align:center" id="cdLabel">باقي على نهاية 9 سوايع ديالك</div>
+    <div class="bar"><i id="prog" style="width:0%"></i></div>
+    <button class="big out" onclick="checkOut()">⏱ Check Out — ساليت الخدمة</button>
+    <div class="msg" id="outMsg"></div>
+  </div>
+
+  <div class="card">
+    <h2>تسجيل الحضور</h2>
+    <label>شكون نتا؟</label>
+    <select id="empSel" onchange="onEmpChange()"></select>
+    <div class="mut" id="noEmp" style="display:none">القائمة خاوية — المدير خاصو يزيد الفريق من لوحة المدير أولاً.</div>
+    <label>الكود السري ديالك (PIN)</label>
+    <input type="password" id="empPin" inputmode="numeric" placeholder="الكود اللي عطاك المدير">
+    <label>الدوام (Shift)</label>
+    <div class="shifts" id="shiftBtns"></div>
+    <button class="big in" onclick="checkIn()">📍 Check In</button>
+    <div class="msg" id="inMsg"></div>
+  </div>
+
+  <div class="card">
+    <h2>نقط هاد الشهر — <span id="myName">—</span></h2>
+    <div id="myPoints" style="font-size:15px">اختار سمية ديالك من فوق.</div>
+  </div>
+
+  <div class="card">
+    <h2>🕘 السجل ديالي (هاد الشهر)</h2>
+    <div id="myHistory" class="mut">—</div>
+  </div>
+</div>
+
+<!-- LEAVE -->
+<div id="view-leave" class="hidden">
+  <div class="card">
+    <h2>طلب إجازة</h2>
+    <label>شكون نتا؟</label>
+    <select id="leaveEmpSel"></select>
+    <label>الكود السري (PIN)</label>
+    <input type="password" id="leavePin" inputmode="numeric">
+    <label>نهار الإجازة</label>
+    <input type="date" id="leaveDate">
+    <label>السبب (اختياري)</label>
+    <input type="text" id="leaveReason" placeholder="مثال: ظرف عائلي">
+    <button class="big plain" onclick="submitLeave()">صيفط الطلب</button>
+    <div class="msg" id="leaveMsg"></div>
+    <div class="mut" style="margin-top:8px">الإجازة المقبولة من المدير كتحميك من النقطة السوداء ديال الغياب فداك النهار.</div>
+  </div>
+  <div class="card">
+    <h2>طلباتي</h2>
+    <div id="myLeaves"></div>
+  </div>
+</div>
+
+<!-- MANAGER -->
+<div id="view-mgr" class="hidden">
+  <div class="card" id="pinCard">
+    <h2 id="pinTitle">دخول المدير</h2>
+    <div id="pinSet" class="hidden">
+      <div class="mut">أول مرة: اختار رمز PIN للمدير.</div>
+      <label>PIN جديد</label>
+      <input type="password" id="pinNew" inputmode="numeric" placeholder="4 أرقام على الأقل">
+      <label>عاود الـPIN</label>
+      <input type="password" id="pinNew2" inputmode="numeric">
+      <button class="big plain" onclick="setPin()">حفظ الـPIN</button>
+    </div>
+    <div id="pinEnter">
+      <label>PIN ديال المدير</label>
+      <input type="password" id="pinIn" inputmode="numeric">
+      <button class="big plain" onclick="enterPin()">دخول</button>
+    </div>
+    <div class="msg" id="pinMsg"></div>
+  </div>
+
+  <div id="mgrPanel" class="hidden">
+    <div class="subtabs">
+      <button id="st-today" class="on" onclick="subTab('today')">📋 اليوم</button>
+      <button id="st-team" onclick="subTab('team')">👥 الفريق</button>
+      <button id="st-rep" onclick="subTab('rep')">📊 التقارير</button>
+      <button id="st-set" onclick="subTab('set')">⚙️ إعدادات</button>
+    </div>
+
+    <div id="sv-today">
+      <div class="card">
+        <h2>📋 لوحة نهار <span id="todayLbl"></span></h2>
+        <div id="todayBoard"></div>
+        <label>إغلاق نهار:</label>
+        <input type="date" id="closeDate">
+        <button class="big danger" onclick="closeDay()">🔒 إغلاق النهار — الغائب بلا إجازة مقبولة = نقطة سوداء</button>
+        <div class="msg" id="closeMsg"></div>
+      </div>
+      <div class="card">
+        <h2>📄 طلبات الإجازة</h2>
+        <div id="mgrLeaves"></div>
+      </div>
+    </div>
+
+    <div id="sv-team" class="hidden">
+      <div class="card">
+        <h2>👥 الفريق</h2>
+        <label>زيد موظف</label>
+        <input type="text" id="newEmp" placeholder="السمية الكاملة">
+        <label>الكود السري ديالو (4 أرقام على الأقل)</label>
+        <input type="text" id="newEmpPin" inputmode="numeric" placeholder="مثال: 5821">
+        <button class="big plain" onclick="addEmployee()">+ زيد</button>
+        <div class="msg" id="empMsg"></div>
+        <div id="empList" style="margin-top:8px"></div>
+      </div>
+      <div class="card">
+        <h2>✋ نقط يدوية</h2>
+        <label>الموظف</label>
+        <select id="mpEmp"></select>
+        <label>نوع النقطة</label>
+        <select id="mpType">
+          <option value="green">🟢 خضراء</option>
+          <option value="red">🔴 حمراء (تأخير)</option>
+          <option value="black">⚫ سوداء (غياب)</option>
+        </select>
+        <label>ملاحظة</label>
+        <input type="text" id="mpNote" placeholder="علاش؟">
+        <button class="big plain" onclick="addManualPoint()">+ زيد النقطة</button>
+        <div class="msg" id="mpMsg"></div>
+        <div id="mpList" style="margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div id="sv-rep" class="hidden">
+      <div class="card">
+        <h2>📊 ملخص الشهر والمكافآت</h2>
+        <label>الشهر</label>
+        <input type="month" id="sumMonth" onchange="renderSummary()">
+        <div id="summary"></div>
+        <button class="big plain" onclick="exportCsv('summary')">📤 تصدير الملخص (Excel/CSV)</button>
+        <button class="big plain" onclick="exportCsv('detail')">📤 تصدير السجل المفصل (Excel/CSV)</button>
+        <div id="csvBox" class="hidden">
+          <label>كوبي هاد النص وفتحو فـ Excel / Google Sheets (أو صيفطو بالواتساب)</label>
+          <textarea id="csvText" readonly></textarea>
+          <button class="big plain" onclick="copyBox('csvText')">📋 نسخ</button>
+          <button class="big plain" onclick="shareBox('csvText')">↗️ مشاركة</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>🧾 سجل العمليات (آخر 40)</h2>
+        <div id="logList"></div>
+      </div>
+    </div>
+
+    <div id="sv-set" class="hidden">
+      <div class="card">
+        <h2>⚙️ إعدادات الحضور</h2>
+        <label>Latitude ديال اللوطيل</label>
+        <input type="number" id="setLat" step="any">
+        <label>Longitude ديال اللوطيل</label>
+        <input type="number" id="setLon" step="any">
+        <button class="mini" style="margin-top:8px" onclick="useMyLocation()">📍 استعمل الموقع ديالي دابا (خاصك تكون فاللوطيل)</button>
+        <label>نصف قطر منطقة الحضور (بالمتر)</label>
+        <input type="number" id="setRadius" step="10">
+        <label>أقصى خطأ مقبول فالـGPS (بالمتر) — ضد التزوير</label>
+        <input type="number" id="setAcc" step="10">
+        <label>دقائق السماح قبل ما يتحسب تأخير</label>
+        <input type="number" id="setGrace" step="5">
+        <label>قيمة النقطة الخضراء (درهم)</label>
+        <input type="number" id="setGreenVal" step="10">
+        <button class="big plain" onclick="saveSettings()">حفظ الإعدادات</button>
+        <div class="msg" id="setMsg"></div>
+        <label style="margin-top:14px">تبديل PIN المدير</label>
+        <input type="password" id="pinChange" inputmode="numeric" placeholder="PIN جديد">
+        <button class="big plain" onclick="changePin()">بدّل الـPIN</button>
+      </div>
+
+      <div class="card">
+        <h2>🔄 المزامنة بين التيليفونات (Firebase)</h2>
+        <div class="mut">باش المدير يشوف الحضور ديال الكل، خاص كل التيليفونات يكونو مربوطين بنفس الرابط. دير هاد الرابط فكل تيليفون (المدير والموظفين).</div>
+        <label>رابط Realtime Database</label>
+        <input type="url" id="dbUrl" dir="ltr" placeholder="https://اسم-المشروع-default-rtdb.firebaseio.com">
+        <button class="big plain" onclick="saveDbUrl()">حفظ وجرب المزامنة</button>
+        <div class="msg" id="syncMsg"></div>
+      </div>
+
+      <div class="card">
+        <h2>💾 نسخة احتياطية (Backup)</h2>
+        <button class="big plain" onclick="doBackup()">📤 طلع النسخة الاحتياطية</button>
+        <label>أو لصق نسخة قديمة هنا باش ترجعها:</label>
+        <textarea id="bkText"></textarea>
+        <button class="big plain" onclick="copyBox('bkText')">📋 نسخ</button>
+        <button class="big danger" onclick="doRestore()">♻️ رجّع من هاد النص</button>
+        <div class="msg" id="bkMsg"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+var KEY = 'pha_state_v2', OLDKEY = 'pha_state_v1', DBKEY = 'pha_db_url', LOCKKEY = 'pha_lock';
+var SHIFTS = [
+  {label:'05:00 – 14:00', start: 5*60},
+  {label:'09:00 – 18:00', start: 9*60},
+  {label:'12:00 – 21:00', start: 12*60},
+  {label:'15:00 – 00:00', start: 15*60}
+];
+var WORK_MS = 9*3600*1000;
+var COLS = ['emp','rec','leave','man','abs','closed','log'];
+var selShift = 0, mgrAuthed = false;
+
+/* ---------- helpers ---------- */
+function esc(s) { return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+function pad(n) { return (n<10?'0':'')+n; }
+function dkey(d) { return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function todayKey() { return dkey(new Date()); }
+function fmtTime(ts) { var d=new Date(ts); return pad(d.getHours())+':'+pad(d.getMinutes()); }
+function fmtDur(ms) { var m=Math.max(0,Math.round(ms/60000)); return Math.floor(m/60)+'h'+pad(m%60); }
+function msg(id, txt, cls) { var e=document.getElementById(id); e.textContent=txt; e.className='msg '+cls; }
+function $(id) { return document.getElementById(id); }
+function toast(t) { var e=$('toast'); e.textContent=t; e.style.display='block'; clearTimeout(toast.t); toast.t=setTimeout(function(){e.style.display='none';},2800); }
+// simple salted hash (not for real secrets, but PINs are never stored in clear text)
+function hashPin(p) {
+  var s='pha|'+p+'|hotel', h1=0xdeadbeef, h2=0x41c6ce57;
+  for (var r=0;r<50;r++) for (var i=0;i<s.length;i++) { var c=s.charCodeAt(i); h1=Math.imul(h1^c,2654435761); h2=Math.imul(h2^c,1597334677); }
+  h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
+  h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
+  return (h2>>>0).toString(16)+(h1>>>0).toString(16);
+}
+function haversine(lat1, lon1, lat2, lon2) {
+  var R=6371000, t=Math.PI/180;
+  var dLat=(lat2-lat1)*t, dLon=(lon2-lon1)*t;
+  var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*t)*Math.cos(lat2*t)*Math.sin(dLon/2)*Math.sin(dLon/2);
+  return Math.round(2*R*Math.asin(Math.sqrt(a)));
+}
+
+/* ---------- state (maps by id, each item has u = last update, del = deleted) ---------- */
+function defState() {
+  var s = { cfg: { u: 0, lat: 31.59542, lon: -7.94051, radius: 300, grace: 30, greenValue: 100, maxAcc: 100, pin: null } };
+  COLS.forEach(function(c){ s[c] = {}; });
+  return s;
+}
+function migrateOld(o) {
+  var s = defState(), t = Date.now();
+  if (o.settings) { for (var k in o.settings) s.cfg[k] = o.settings[k]; }
+  if (o.pin) s.cfg.pin = hashPin(o.pin);
+  s.cfg.u = t;
+  (o.employees||[]).forEach(function(e){ s.emp[e.id] = {id:e.id, name:e.name, pin:null, u:t}; });
+  (o.records||[]).forEach(function(r){ r.u=t; s.rec[r.id]=r; });
+  (o.leaves||[]).forEach(function(r){ r.u=t; s.leave[r.id]=r; });
+  (o.manual||[]).forEach(function(r){ r.u=t; s.man[r.id]=r; });
+  (o.absences||[]).forEach(function(a){ var id=a.empId+'_'+a.date; s.abs[id]={id:id,empId:a.empId,date:a.date,u:t}; });
+  (o.closedDays||[]).forEach(function(d){ s.closed[d]={id:d,date:d,u:t}; });
+  return s;
+}
+function load() {
+  try { var s = JSON.parse(localStorage.getItem(KEY)); if (s && s.cfg) { COLS.forEach(function(c){ if(!s[c]) s[c]={}; }); return s; } } catch(e) {}
+  try { var o = JSON.parse(localStorage.getItem(OLDKEY)); if (o && o.settings) return migrateOld(o); } catch(e) {}
+  return defState();
+}
+var S = load();
+var dirty = {};   // 'col/id' -> true
+try { dirty = JSON.parse(localStorage.getItem('pha_dirty')||'{}'); } catch(e) {}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(S)); localStorage.setItem('pha_dirty', JSON.stringify(dirty)); } catch(e) {}
+}
+function put(col, item) { item.u = Date.now(); S[col][item.id] = item; dirty[col+'/'+item.id] = true; save(); scheduleSync(); return item; }
+function putCfg() { S.cfg.u = Date.now(); dirty['cfg'] = true; save(); scheduleSync(); }
+function list(col) { var o=S[col], a=[]; for (var k in o) if (!o[k].del) a.push(o[k]); return a; }
+function remove(col, id) { var it=S[col][id]; if (!it) return; it.del=true; put(col, it); }
+function empName(id) { var e=S.emp[id]; return e && !e.del ? e.name : '؟'; }
+function employees() { return list('emp').sort(function(a,b){ return a.name.localeCompare(b.name); }); }
+function log(text) { put('log', {id:uid(), t:Date.now(), text:text}); }
+
+/* ---------- sync (Firebase Realtime Database over REST) ---------- */
+var syncing = false, syncTimer = null, lastSync = 0, syncErr = '';
+function dbUrl() { try { return (localStorage.getItem(DBKEY)||'').replace(/\/+$/,''); } catch(e) { return ''; } }
+function setSyncBar() {
+  var el=$('syncBar'); if (!dbUrl()) { el.textContent='📴 بلا مزامنة — الداطا غير فهاد التيليفون'; return; }
+  var pend = Object.keys(dirty).length;
+  el.textContent = syncErr ? '⚠️ المزامنة فيها مشكل: '+syncErr : (lastSync ? '🔄 تزامن مع '+fmtTime(lastSync)+(pend?' · '+pend+' باقين':'') : '🔄 كنزامنو…');
+}
+function scheduleSync() { if (!dbUrl()) { setSyncBar(); return; } clearTimeout(syncTimer); syncTimer=setTimeout(syncNow,1200); setSyncBar(); }
+function fetchT(url, opt, ms) {
+  var c = (typeof AbortController!=='undefined') ? new AbortController() : null;
+  if (c) { opt.signal = c.signal; setTimeout(function(){ c.abort(); }, ms||12000); }
+  return fetch(url, opt);
+}
+function syncNow(cb) {
+  var base = dbUrl();
+  if (!base || syncing) { if (cb) cb(false); return; }
+  syncing = true;
+  fetchT(base+'/.json', {}, 15000).then(function(r){
+    if (!r.ok) throw new Error('HTTP '+r.status+(r.status==401?' (الـrules ما مسموحش)':''));
+    return r.json();
+  }).then(function(R){
+    R = R || {};
+    var patch = {}, changed = false;
+    // cfg
+    var rc = R.cfg;
+    if (rc && (rc.u||0) > (S.cfg.u||0)) { S.cfg = rc; delete dirty['cfg']; changed = true; }
+    else if (!rc || (S.cfg.u||0) > (rc.u||0) || dirty['cfg']) { if (S.cfg.u) { patch['cfg'] = S.cfg; delete dirty['cfg']; } }
+    COLS.forEach(function(c){
+      var rm = R[c] || {};
+      for (var id in rm) {
+        var ri = rm[id], li = S[c][id];
+        if (!li || (ri.u||0) > (li.u||0)) { S[c][id] = ri; delete dirty[c+'/'+id]; changed = true; }
+      }
+      for (var id2 in S[c]) {
+        var li2 = S[c][id2], ri2 = rm[id2];
+        if (!ri2 || (li2.u||0) > (ri2.u||0) || dirty[c+'/'+id2]) { patch[c+'/'+id2] = li2; delete dirty[c+'/'+id2]; }
+      }
+    });
+    if (Object.keys(patch).length === 0) return changed;
+    return fetchT(base+'/.json', {method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify(patch)}, 20000)
+      .then(function(r){ if (!r.ok) throw new Error('HTTP '+r.status); return true; });
+  }).then(function(changed){
+    syncErr=''; lastSync=Date.now(); save(); syncing=false; setSyncBar(); refreshAll(); if (cb) cb(true);
+  }).catch(function(e){
+    syncing=false; syncErr = (e && e.name==='AbortError') ? 'ما كاينش internet' : String(e&&e.message||e); setSyncBar(); if (cb) cb(false);
+  });
+}
+setInterval(function(){ if (dbUrl()) syncNow(); }, 30000);
+function saveDbUrl() {
+  var v = $('dbUrl').value.trim().replace(/\/+$/,'');
+  if (v && !/^https:\/\/.+/.test(v)) { msg('syncMsg','الرابط خاصو يبدا بـ https://','err'); return; }
+  try { localStorage.setItem(DBKEY, v); } catch(e) {}
+  if (!v) { msg('syncMsg','تحيدات المزامنة.','info'); setSyncBar(); return; }
+  msg('syncMsg','كنجربو…','info');
+  syncNow(function(ok){ msg('syncMsg', ok ? '✅ المزامنة خدامة.' : '❌ ما نجحاتش: '+syncErr, ok?'ok':'err'); });
+}
+
+/* ---------- tabs ---------- */
+function showTab(t) {
+  ['att','leave','mgr'].forEach(function(x){
+    $('view-'+x).classList.toggle('hidden', x!==t);
+    $('tab-'+x).classList.toggle('on', x===t);
+  });
+  if (t==='mgr') renderMgr();
+}
+function subTab(t) {
+  ['today','team','rep','set'].forEach(function(x){
+    $('sv-'+x).classList.toggle('hidden', x!==t);
+    $('st-'+x).classList.toggle('on', x===t);
+  });
+  renderMgr();
+}
+function refreshAll() {
+  renderEmpSelects(); renderActive(); renderMyPoints(); renderMyLeaves(); renderHistory();
+  if (mgrAuthed) renderMgr(); else renderMgrHeader();
+  setSyncBar();
+}
+
+/* ---------- employee selection / pin ---------- */
+function renderEmpSelects() {
+  var emps = employees();
+  var html = emps.map(function(e){ return '<option value="'+esc(e.id)+'">'+esc(e.name)+'</option>'; }).join('');
+  ['empSel','leaveEmpSel','mpEmp'].forEach(function(id){
+    var el=$(id); if (!el) return; var cur=el.value;
+    if (el.innerHTML !== html) { el.innerHTML = html; if (cur) el.value = cur; }
+  });
+  $('noEmp').style.display = emps.length ? 'none' : 'block';
+}
+function onEmpChange() { renderActive(); renderMyPoints(); renderHistory(); }
+function checkEmpPin(empId, pin) {
+  var e = S.emp[empId]; if (!e || e.del) return 'اختار سمية ديالك.';
+  var lk; try { lk = JSON.parse(localStorage.getItem(LOCKKEY)||'{}'); } catch(x) { lk = {}; }
+  var l = lk[empId] || {n:0, until:0};
+  if (l.until > Date.now()) return 'بزاف د المحاولات. عاود من بعد '+Math.ceil((l.until-Date.now())/1000)+' ثانية.';
+  if (!e.pin) return 'المدير ما عطاكش الكود السري بعد. سول المدير.';
+  if (hashPin(String(pin).trim()) !== e.pin) {
+    l.n++; if (l.n>=5) { l.until = Date.now()+60000; l.n=0; }
+    lk[empId]=l; try { localStorage.setItem(LOCKKEY, JSON.stringify(lk)); } catch(x) {}
+    return '❌ الكود السري غلط.';
+  }
+  lk[empId]={n:0,until:0}; try { localStorage.setItem(LOCKKEY, JSON.stringify(lk)); } catch(x) {}
+  return null;
+}
+
+/* ---------- attendance ---------- */
+function renderShifts() {
+  $('shiftBtns').innerHTML = SHIFTS.map(function(s,i){
+    return '<button class="'+(i===selShift?'on':'')+'" onclick="selShift='+i+';renderShifts()">'+s.label+'</button>';
+  }).join('');
+}
+function myRecordToday(empId, date) {
+  var t = date || todayKey(), rs = list('rec');
+  for (var i=0;i<rs.length;i++) if (rs[i].empId===empId && rs[i].date===t) return rs[i];
+  return null;
+}
+function activeRecord(empId) {
+  var rs = list('rec'), now = Date.now();
+  for (var i=0;i<rs.length;i++) {
+    var r = rs[i];
+    if (r.empId===empId && r.checkIn && !r.checkOut) {
+      if (now - r.checkIn > 20*3600*1000) { r.checkOut = r.checkIn + WORK_MS; r.auto = true; put('rec', r); continue; } // forgot to check out
+      return r;
+    }
+  }
+  return null;
+}
+function renderActive() {
+  var empId = $('empSel').value, card = $('activeCard');
+  var r = empId && activeRecord(empId);
+  if (!r) { card.style.display='none'; return; }
+  card.style.display='block';
+  $('activeInfo').innerHTML = '<b>'+esc(empName(r.empId))+'</b> — Check In مع '+fmtTime(r.checkIn)+' · تسالي الخدمة مع '+fmtTime(r.checkIn + WORK_MS);
+  tickCountdown();
+}
+function tickCountdown() {
+  var empId = $('empSel').value, r = empId && activeRecord(empId); if (!r) return;
+  var now = Date.now(), left = r.checkIn + WORK_MS - now;
+  var pct = Math.min(100, Math.max(0, (now - r.checkIn) / WORK_MS * 100));
+  $('prog').style.width = pct + '%';
+  if (left <= 0) { $('countdown').textContent = '+'+fmtDur(-left)+' ✔'; $('cdLabel').textContent = 'كملتي 9 سوايع — الوقت الزايد (Overtime)'; return; }
+  var h = Math.floor(left/3600000), m = Math.floor(left%3600000/60000), s = Math.floor(left%60000/1000);
+  $('countdown').textContent = pad(h)+':'+pad(m)+':'+pad(s);
+  $('cdLabel').textContent = 'باقي على نهاية 9 سوايع ديالك';
+}
+setInterval(tickCountdown, 1000);
+
+function doCheckIn(empId) {
+  if (!navigator.geolocation) { msg('inMsg','هاد الجهاز ما فيهش GPS.','err'); return; }
+  msg('inMsg','كنحددو الموقع ديالك…','info');
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var c = pos.coords, cfg = S.cfg;
+    if (myRecordToday(empId)) { msg('inMsg','راك مسجل الحضور ديالك اليوم صافي.','err'); return; }
+    if (c.accuracy > (cfg.maxAcc||100)) {
+      msg('inMsg','❌ الـGPS ما مضبوطش (خطأ '+Math.round(c.accuracy)+' متر، المسموح '+(cfg.maxAcc||100)+'). حل الـGPS (High accuracy)، وقف فمكان مفتوح وعاود.','err'); return;
+    }
+    var d = haversine(c.latitude, c.longitude, cfg.lat, cfg.lon);
+    if (d > cfg.radius) {
+      msg('inMsg','❌ راك برّا منطقة اللوطيل: بعيد بـ '+d+' متر (المسموح '+cfg.radius+' متر). قرّب للوطيل وعاود.','err'); return;
+    }
+    var now = new Date(), startMin = SHIFTS[selShift].start;
+    var shiftDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), Math.floor(startMin/60), startMin%60);
+    if (shiftDate.getTime() - now.getTime() > 3*3600*1000) {
+      msg('inMsg','⏳ بكري بزاف على دوام '+SHIFTS[selShift].label+' — تقدر دير Check In 3 سوايع قبل بداية الدوام.','err'); return;
+    }
+    var onTime = now.getTime() <= shiftDate.getTime() + cfg.grace*60000;
+    put('rec', { id: uid(), empId: empId, date: todayKey(), shiftStart: startMin, checkIn: now.getTime(), checkOut: null,
+                 onTime: onTime, dist: d, acc: Math.round(c.accuracy), lat: +c.latitude.toFixed(5), lon: +c.longitude.toFixed(5) });
+    log('Check In — '+empName(empId)+(onTime?' (فالوقت)':' (معطل)'));
+    renderActive(); renderMyPoints(); renderHistory(); $('empPin').value='';
+    msg('inMsg', onTime
+      ? '✅ تسجل الحضور — نقطة خضراء 🟢 (+'+cfg.greenValue+' درهم). الخدمة تسالي مع '+fmtTime(now.getTime()+WORK_MS)+'.'
+      : '✅ تسجل الحضور ولكن معطل — نقطة حمراء 🔴. الخدمة تسالي مع '+fmtTime(now.getTime()+WORK_MS)+'.', onTime?'ok':'info');
+  }, function(err){
+    msg('inMsg', err && err.code===1 ? '❌ ما عطيتيش الإذن للموقع. من إعدادات التيليفون عطي الإذن للتطبيق.' : '❌ ما قدرناش نحددو الموقع. تأكد بلي الـGPS خدام.','err');
+  }, { enableHighAccuracy: true, timeout: 25000, maximumAge: 0 });
+}
+function checkIn() {
+  var empId = $('empSel').value;
+  if (!empId) { msg('inMsg','خاص المدير يزيد سمية ديالك في الفريق أولاً.','err'); return; }
+  var bad = checkEmpPin(empId, $('empPin').value);
+  if (bad) { msg('inMsg', bad, 'err'); return; }
+  if (dbUrl()) { msg('inMsg','كنتأكدو من آخر المعلومات…','info'); syncNow(function(){ doCheckIn(empId); }); }
+  else doCheckIn(empId);
+}
+function checkOut() {
+  var empId = $('empSel').value, r = empId && activeRecord(empId); if (!r) return;
+  var now = Date.now(), worked = now - r.checkIn;
+  if (worked < WORK_MS && !confirm('باقي ليك '+fmtDur(WORK_MS-worked)+' باش تكمل 9 سوايع. متأكد بغيتي تخرج؟')) return;
+  r.checkOut = now; r.early = worked < WORK_MS; put('rec', r);
+  log('Check Out — '+empName(empId)+' ('+fmtDur(worked)+')'+(r.early?' خروج بكري':''));
+  renderActive(); renderHistory();
+  var h = Math.floor(worked/3600000), m = Math.floor(worked%3600000/60000);
+  msg('inMsg','👋 تسجل الخروج. خدمتي اليوم '+h+' سوايع و'+m+' دقيقة.','ok');
+  alert('تسجل الخروج ✔\nخدمتي اليوم '+h+' سوايع و'+m+' دقيقة.');
+}
+
+/* ---------- points ---------- */
+function pointsFor(empId, mp) {
+  var g=0, r=0, b=0, ms=0, days=0, ot=0, early=0;
+  list('rec').forEach(function(x){
+    if (x.empId!==empId || x.date.indexOf(mp)!==0) return;
+    days++; if (x.onTime) g++; else r++;
+    if (x.checkOut) { var w=x.checkOut-x.checkIn; ms+=w; if (w>WORK_MS) ot+=w-WORK_MS; if (x.early) early++; }
+  });
+  list('man').forEach(function(x){ if (x.empId===empId && x.date.indexOf(mp)===0) { if (x.type==='green') g++; else if (x.type==='red') r++; else b++; } });
+  list('abs').forEach(function(x){ if (x.empId===empId && x.date.indexOf(mp)===0) b++; });
+  return {g:g, r:r, b:b, ms:ms, days:days, ot:ot, early:early};
+}
+function renderMyPoints() {
+  var empId = $('empSel').value, box = $('myPoints');
+  if (!empId || !S.emp[empId]) { $('myName').textContent='—'; box.textContent='اختار سمية ديالك من فوق.'; return; }
+  $('myName').textContent = empName(empId);
+  var p = pointsFor(empId, todayKey().slice(0,7));
+  box.innerHTML = '<div class="stats"><div><b>'+p.g+'</b>🟢 خضراء</div><div><b>'+p.r+'</b>🔴 حمراء</div><div><b>'+p.b+'</b>⚫ سوداء</div></div>'+
+    '<div style="margin-top:10px">💰 المكافأة: <b>'+(p.g*S.cfg.greenValue)+' درهم</b> · ⏱ مجموع الساعات: <b>'+fmtDur(p.ms)+'</b> · أيام الخدمة: <b>'+p.days+'</b></div>';
+}
+function renderHistory() {
+  var empId = $('empSel').value, box = $('myHistory');
+  if (!empId) { box.textContent='—'; return; }
+  var mp = todayKey().slice(0,7);
+  var rs = list('rec').filter(function(r){ return r.empId===empId && r.date.indexOf(mp)===0; }).sort(function(a,b){ return b.checkIn-a.checkIn; });
+  box.innerHTML = rs.length ? rs.map(function(r){
+    return '<div class="row"><span>'+esc(r.date)+'<br><span class="mut">'+fmtTime(r.checkIn)+' → '+(r.checkOut?fmtTime(r.checkOut)+' ('+fmtDur(r.checkOut-r.checkIn)+')':'باقي خدام')+'</span></span>'+
+      (r.onTime?'<span class="pt g">🟢</span>':'<span class="pt r">🔴</span>')+'</div>';
+  }).join('') : 'ما كاين حتى تسجيل هاد الشهر.';
+}
+
+/* ---------- leave ---------- */
+function submitLeave() {
+  var empId = $('leaveEmpSel').value, date = $('leaveDate').value;
+  if (!empId) { msg('leaveMsg','اختار سمية ديالك.','err'); return; }
+  var bad = checkEmpPin(empId, $('leavePin').value); if (bad) { msg('leaveMsg', bad, 'err'); return; }
+  if (!date) { msg('leaveMsg','اختار نهار الإجازة.','err'); return; }
+  if (date < todayKey()) { msg('leaveMsg','ما يمكنش تطلب إجازة فنهار فات.','err'); return; }
+  put('leave', { id: uid(), empId: empId, date: date, reason: $('leaveReason').value.trim(), status: 'pending' });
+  log('طلب إجازة — '+empName(empId)+' ('+date+')');
+  $('leavePin').value=''; renderMyLeaves(); renderMgrLeaves();
+  msg('leaveMsg','✅ تصيفط الطلب — كيتسنى موافقة المدير.','ok');
+}
+function leaveBadge(st) { return st==='approved' ? '<span class="pt appr">مقبولة</span>' : st==='rejected' ? '<span class="pt rej">مرفوضة</span>' : '<span class="pt pend">في الانتظار</span>'; }
+function renderMyLeaves() {
+  var empId = $('leaveEmpSel').value;
+  var mine = list('leave').filter(function(l){ return l.empId===empId; }).sort(function(a,b){ return b.u-a.u; });
+  $('myLeaves').innerHTML = mine.length ? mine.map(function(l){
+    return '<div class="row"><span>'+esc(l.date)+(l.reason?' — '+esc(l.reason):'')+'</span>'+leaveBadge(l.status)+'</div>';
+  }).join('') : '<div class="mut">ما كاين حتى طلب.</div>';
+}
+
+/* ---------- manager ---------- */
+function renderMgrHeader() {
+  var has = !!S.cfg.pin;
+  $('pinSet').classList.toggle('hidden', has);
+  $('pinEnter').classList.toggle('hidden', !has);
+  $('pinCard').classList.toggle('hidden', mgrAuthed);
+  $('pinTitle').textContent = has ? 'دخول المدير' : 'إعداد PIN المدير — أول مرة';
+  $('mgrPanel').classList.toggle('hidden', !mgrAuthed);
+}
+function renderMgr() {
+  renderMgrHeader();
+  $('todayLbl').textContent = todayKey();
+  if (!mgrAuthed) return;
+  if (!$('closeDate').value) $('closeDate').value = todayKey();
+  if (!$('sv-today').classList.contains('hidden')) { renderToday(); renderMgrLeaves(); }
+  if (!$('sv-team').classList.contains('hidden')) { renderEmpList(); renderManual(); }
+  if (!$('sv-rep').classList.contains('hidden')) { renderSummary(); renderLog(); }
+  if (!$('sv-set').classList.contains('hidden')) fillSettings();
+}
+function lockedOut() {
+  var l; try { l = JSON.parse(localStorage.getItem(LOCKKEY+'_m')||'{}'); } catch(e) { l = {}; }
+  return l;
+}
+function setPin() {
+  var a=$('pinNew').value.trim(), b=$('pinNew2').value.trim();
+  if (a.length<4) { msg('pinMsg','الـPIN خاصو يكون 4 أرقام على الأقل.','err'); return; }
+  if (a!==b) { msg('pinMsg','الـPIN ما متطابقش في الجوج خانات.','err'); return; }
+  S.cfg.pin = hashPin(a); putCfg(); mgrAuthed=true; log('تحدد PIN المدير'); renderMgr();
+}
+function enterPin() {
+  var l = lockedOut(); l.n = l.n||0; l.until = l.until||0;
+  if (l.until > Date.now()) { msg('pinMsg','بزاف د المحاولات. عاود من بعد '+Math.ceil((l.until-Date.now())/1000)+' ثانية.','err'); return; }
+  if (hashPin($('pinIn').value.trim()) === S.cfg.pin) {
+    try { localStorage.setItem(LOCKKEY+'_m', '{}'); } catch(e) {}
+    mgrAuthed=true; $('pinIn').value=''; renderMgr();
+  } else {
+    l.n++; if (l.n>=5) { l.until=Date.now()+60000; l.n=0; }
+    try { localStorage.setItem(LOCKKEY+'_m', JSON.stringify(l)); } catch(e) {}
+    msg('pinMsg','❌ PIN غلط.','err');
+  }
+}
+function changePin() {
+  var v=$('pinChange').value.trim();
+  if (v.length<4) { msg('setMsg','الـPIN خاصو يكون 4 أرقام على الأقل.','err'); return; }
+  S.cfg.pin = hashPin(v); putCfg(); log('تبدل PIN المدير'); $('pinChange').value=''; msg('setMsg','✅ تبدل الـPIN.','ok');
+}
+function renderToday() {
+  var t = todayKey(), rows = list('rec').filter(function(x){ return x.date===t; }).sort(function(a,b){ return a.checkIn-b.checkIn; });
+  var html = rows.length ? rows.map(function(x){
+    return '<div class="row"><span><b>'+esc(empName(x.empId))+'</b> · دوام '+pad(Math.floor(x.shiftStart/60))+':'+pad(x.shiftStart%60)+
+      '<br><span class="mut">دخل '+fmtTime(x.checkIn)+(x.checkOut?' · خرج '+fmtTime(x.checkOut)+(x.early?' (بكري)':''):' · باقي خدام')+' · '+(x.dist!=null?x.dist+'م':'')+'</span></span>'+
+      (x.onTime?'<span class="pt g">🟢 في الوقت</span>':'<span class="pt r">🔴 معطل</span>')+'</div>';
+  }).join('') : '<div class="mut">حتى واحد ما سجل الحضور اليوم.</div>';
+  var onLv = {}; list('leave').forEach(function(l){ if (l.date===t && l.status==='approved') onLv[l.empId]=1; });
+  var absent = employees().filter(function(e){ return !myRecordToday(e.id) && !onLv[e.id]; });
+  var inLeave = employees().filter(function(e){ return onLv[e.id]; });
+  if (absent.length) html += '<div style="margin-top:8px" class="mut">باقي ما دخلوش: '+absent.map(function(e){return esc(e.name);}).join('، ')+'</div>';
+  if (inLeave.length) html += '<div style="margin-top:6px" class="mut">فإجازة: '+inLeave.map(function(e){return esc(e.name);}).join('، ')+'</div>';
+  if (S.closed[t] && !S.closed[t].del) html += '<div style="margin-top:8px">🔒 اليوم مسدود — النقط السوداء توزعات.</div>';
+  $('todayBoard').innerHTML = html;
+}
+function closeDay() {
+  var t = $('closeDate').value || todayKey();
+  if (t > todayKey()) { msg('closeMsg','ما يمكنش تسد نهار ما جاش.','err'); return; }
+  if (S.closed[t] && !S.closed[t].del) { msg('closeMsg','هاد النهار مسدود صافي.','err'); return; }
+  if (!confirm('إغلاق نهار '+t+'؟ أي موظف ما دخلش وما عندوش إجازة مقبولة غادي ياخد نقطة سوداء.')) return;
+  var n = 0;
+  employees().forEach(function(e){
+    if (myRecordToday(e.id, t)) return;
+    var onLeave = list('leave').some(function(l){ return l.empId===e.id && l.date===t && l.status==='approved'; });
+    if (!onLeave) { var id=e.id+'_'+t; put('abs', {id:id, empId:e.id, date:t}); n++; }
+  });
+  put('closed', {id:t, date:t});
+  log('إغلاق '+t+' — '+n+' نقطة سوداء');
+  renderToday(); renderMyPoints();
+  msg('closeMsg','🔒 تسد النهار — توزعات '+n+' نقطة سوداء على الغائبين بلا إجازة مقبولة.','ok');
+}
+function addEmployee() {
+  var name=$('newEmp').value.trim(), pin=$('newEmpPin').value.trim();
+  if (!name) { msg('empMsg','كتب سمية الموظف.','err'); return; }
+  if (pin.length<4) { msg('empMsg','الكود السري خاصو يكون 4 أرقام على الأقل.','err'); return; }
+  put('emp', {id: uid(), name: name, pin: hashPin(pin)});
+  log('زيادة موظف: '+name);
+  $('newEmp').value=''; $('newEmpPin').value='';
+  refreshAll(); msg('empMsg','✅ تزاد '+name+' للفريق. عطيه الكود: '+pin,'ok');
+}
+function resetEmpPin(id) {
+  var p = prompt('كود سري جديد ل '+empName(id)+' (4 أرقام على الأقل):'); if (!p) return;
+  p = p.trim(); if (p.length<4) { alert('قصير بزاف.'); return; }
+  var e=S.emp[id]; e.pin=hashPin(p); put('emp', e); log('تبدل كود '+e.name); toast('✅ تبدل الكود: '+p);
+}
+function delEmployee(id) {
+  if (!confirm('تحيّد '+empName(id)+' من الفريق؟')) return;
+  log('حذف موظف: '+empName(id)); remove('emp', id); refreshAll();
+}
+function renderEmpList() {
+  $('empList').innerHTML = employees().length ? employees().map(function(e){
+    return '<div class="row"><span>'+esc(e.name)+(e.pin?'':' <span class="mut">(بلا كود)</span>')+'</span><span><button class="mini" onclick="resetEmpPin(\''+e.id+'\')">🔑 كود</button> <button class="mini danger" onclick="delEmployee(\''+e.id+'\')">حيّد</button></span></div>';
+  }).join('') : '<div class="mut">الفريق خاوي.</div>';
+}
+function renderMgrLeaves() {
+  var box=$('mgrLeaves'), all = list('leave').sort(function(a,b){ return (a.status==='pending'?0:1)-(b.status==='pending'?0:1) || b.u-a.u; }).slice(0,40);
+  box.innerHTML = all.length ? all.map(function(l){
+    var btns = l.status==='pending'
+      ? '<span><button class="mini in" onclick="setLeave(\''+l.id+'\',\'approved\')">✔ قبول</button> <button class="mini danger" onclick="setLeave(\''+l.id+'\',\'rejected\')">✖ رفض</button></span>'
+      : leaveBadge(l.status);
+    return '<div class="row"><span><b>'+esc(empName(l.empId))+'</b> — '+esc(l.date)+(l.reason?'<br><span class="mut">'+esc(l.reason)+'</span>':'')+'</span>'+btns+'</div>';
+  }).join('') : '<div class="mut">ما كاين حتى طلب إجازة.</div>';
+}
+function setLeave(id, st) {
+  var l=S.leave[id]; if (!l) return; l.status=st; put('leave', l);
+  log((st==='approved'?'قبول':'رفض')+' إجازة — '+empName(l.empId)+' ('+l.date+')');
+  renderMgrLeaves(); renderMyLeaves();
+}
+function addManualPoint() {
+  var empId=$('mpEmp').value;
+  if (!empId) { msg('mpMsg','اختار موظف.','err'); return; }
+  put('man', { id: uid(), empId: empId, date: todayKey(), type: $('mpType').value, note: $('mpNote').value.trim() });
+  log('نقطة يدوية '+$('mpType').value+' — '+empName(empId));
+  $('mpNote').value=''; renderManual(); renderMyPoints();
+  msg('mpMsg','✅ تزادات النقطة.','ok');
+}
+function delManual(id) { remove('man', id); renderManual(); renderMyPoints(); }
+function renderManual() {
+  var all=list('man').sort(function(a,b){return b.u-a.u;}).slice(0,30);
+  $('mpList').innerHTML = all.length ? all.map(function(x){
+    var badge = x.type==='green'?'<span class="pt g">🟢 خضراء</span>':x.type==='red'?'<span class="pt r">🔴 حمراء</span>':'<span class="pt b">⚫ سوداء</span>';
+    return '<div class="row"><span><b>'+esc(empName(x.empId))+'</b> · '+esc(x.date)+(x.note?'<br><span class="mut">'+esc(x.note)+'</span>':'')+'</span><span>'+badge+' <button class="mini danger" onclick="delManual(\''+x.id+'\')">حيّد</button></span></div>';
+  }).join('') : '<div class="mut">ما كاينة حتى نقطة يدوية.</div>';
+}
+function curMonth() { return $('sumMonth').value || todayKey().slice(0,7); }
+function renderSummary() {
+  if (!$('sumMonth').value) $('sumMonth').value = todayKey().slice(0,7);
+  var mp = curMonth(), total = 0;
+  var rows = employees().map(function(e){
+    var p=pointsFor(e.id, mp); total += p.g*S.cfg.greenValue;
+    return '<tr><td>'+esc(e.name)+'</td><td>'+p.days+'</td><td>'+p.g+'</td><td>'+p.r+'</td><td>'+p.b+'</td><td>'+fmtDur(p.ms)+'</td><td>'+(p.g*S.cfg.greenValue)+'</td></tr>';
+  }).join('');
+  $('summary').innerHTML =
+    '<table><tr><th>الموظف</th><th>أيام</th><th>🟢</th><th>🔴</th><th>⚫</th><th>ساعات</th><th>درهم</th></tr>'+rows+'</table>'+
+    '<div style="margin-top:8px">مجموع المكافآت هاد الشهر: <b>'+total+' درهم</b> (النقطة الخضراء = '+S.cfg.greenValue+' درهم)</div>';
+}
+function renderLog() {
+  var all=list('log').sort(function(a,b){return b.t-a.t;}).slice(0,40);
+  $('logList').innerHTML = all.length ? all.map(function(x){
+    var d=new Date(x.t); return '<div class="row"><span>'+esc(x.text)+'</span><span class="mut">'+pad(d.getDate())+'/'+pad(d.getMonth()+1)+' '+fmtTime(x.t)+'</span></div>';
+  }).join('') : '<div class="mut">فارغ.</div>';
+}
+function csvCell(v) { v = String(v==null?'':v); return /[",\n;]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }
+function exportCsv(kind) {
+  var mp = curMonth(), lines = [];
+  if (kind==='summary') {
+    lines.push(['Employee','Days','Green','Red','Black','Hours','Overtime','EarlyExits','Bonus MAD'].map(csvCell).join(','));
+    employees().forEach(function(e){
+      var p=pointsFor(e.id, mp);
+      lines.push([e.name,p.days,p.g,p.r,p.b,(p.ms/3600000).toFixed(2),(p.ot/3600000).toFixed(2),p.early,p.g*S.cfg.greenValue].map(csvCell).join(','));
+    });
+  } else {
+    lines.push(['Date','Employee','Shift start','Check In','Check Out','Hours','On time','Distance m','GPS accuracy m'].map(csvCell).join(','));
+    list('rec').filter(function(r){ return r.date.indexOf(mp)===0; }).sort(function(a,b){return a.checkIn-b.checkIn;}).forEach(function(r){
+      lines.push([r.date,empName(r.empId),pad(Math.floor(r.shiftStart/60))+':'+pad(r.shiftStart%60),fmtTime(r.checkIn),r.checkOut?fmtTime(r.checkOut):'',
+        r.checkOut?((r.checkOut-r.checkIn)/3600000).toFixed(2):'',r.onTime?'yes':'late',r.dist,r.acc].map(csvCell).join(','));
+    });
+  }
+  $('csvText').value = '﻿' + lines.join('\n');
+  $('csvBox').classList.remove('hidden');
+  toast('✅ واجد — كوبي النص');
+}
+function copyBox(id) {
+  var el=$(id); el.removeAttribute('readonly'); el.focus(); el.select();
+  var ok=false; try { ok=document.execCommand('copy'); } catch(e) {}
+  if (!ok && navigator.clipboard) { try { navigator.clipboard.writeText(el.value); ok=true; } catch(e) {} }
+  toast(ok?'📋 تنسخ':'حدد النص وكوبيه بيدك');
+}
+function shareBox(id) {
+  var t=$(id).value;
+  if (navigator.share) navigator.share({text:t}).catch(function(){}); else copyBox(id);
+}
+function fillSettings() {
+  var c=S.cfg;
+  $('setLat').value=c.lat; $('setLon').value=c.lon; $('setRadius').value=c.radius; $('setGrace').value=c.grace;
+  $('setGreenVal').value=c.greenValue; $('setAcc').value=c.maxAcc||100; $('dbUrl').value = dbUrl();
+  $('mpType').options[0].text='🟢 خضراء (+'+c.greenValue+' درهم مكافأة)';
+}
+function useMyLocation() {
+  if (!navigator.geolocation) { msg('setMsg','ما كاينش GPS.','err'); return; }
+  msg('setMsg','كنحددو الموقع…','info');
+  navigator.geolocation.getCurrentPosition(function(p){
+    $('setLat').value = p.coords.latitude.toFixed(6); $('setLon').value = p.coords.longitude.toFixed(6);
+    msg('setMsg','✅ تعمرات الإحداثيات (دقة '+Math.round(p.coords.accuracy)+' م). ضغط "حفظ الإعدادات".','ok');
+  }, function(){ msg('setMsg','❌ ما قدرناش نحددو الموقع.','err'); }, {enableHighAccuracy:true, timeout:25000, maximumAge:0});
+}
+function saveSettings() {
+  var lat=parseFloat($('setLat').value), lon=parseFloat($('setLon').value);
+  var rad=parseInt($('setRadius').value), gr=parseInt($('setGrace').value), gv=parseInt($('setGreenVal').value), acc=parseInt($('setAcc').value);
+  if (isNaN(lat)||isNaN(lon)||isNaN(rad)||rad<=0) { msg('setMsg','راجع الإحداثيات ونصف القطر.','err'); return; }
+  var pin = S.cfg.pin;
+  S.cfg = { u:0, lat:lat, lon:lon, radius:rad, grace:isNaN(gr)?30:gr, greenValue:isNaN(gv)?100:gv, maxAcc:(isNaN(acc)||acc<=0)?100:acc, pin:pin };
+  putCfg(); log('تبدلات الإعدادات'); fillSettings(); renderMyPoints(); renderSummary();
+  msg('setMsg','✅ تحفظات الإعدادات.','ok');
+}
+function doBackup() {
+  $('bkText').value = JSON.stringify({v:2, S:S});
+  msg('bkMsg','✅ واجدة. كوبي النص وحطو فمكان آمن (واتساب ليك، Notes…).','ok');
+}
+function doRestore() {
+  try {
+    var o = JSON.parse($('bkText').value.trim());
+    var s = o && o.S && o.S.cfg ? o.S : (o && o.settings ? migrateOld(o) : null);
+    if (!s) throw new Error('bad');
+    if (!confirm('هادشي غادي يعوض الداطا الحالية. متأكد؟')) return;
+    COLS.forEach(function(c){ if (!s[c]) s[c]={}; });
+    var t=Date.now(); s.cfg.u=t; COLS.forEach(function(c){ for (var k in s[c]) s[c][k].u=t; });
+    S = s; dirty = {}; save();
+    if (dbUrl()) { dirty['cfg']=true; COLS.forEach(function(c){ for (var k in S[c]) dirty[c+'/'+k]=true; }); save(); scheduleSync(); }
+    refreshAll(); msg('bkMsg','✅ تّرجعات النسخة الاحتياطية.','ok');
+  } catch(e) { msg('bkMsg','❌ النص ماشي نسخة احتياطية صحيحة.','err'); }
+}
+
+/* ---------- init ---------- */
+$('leaveEmpSel').addEventListener('change', renderMyLeaves);
+renderShifts(); refreshAll();
+if (dbUrl()) syncNow();
+document.addEventListener('visibilitychange', function(){ if (!document.hidden && dbUrl()) syncNow(); });
+</script>
+</body>
+</html>
